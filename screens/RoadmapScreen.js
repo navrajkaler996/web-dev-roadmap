@@ -48,6 +48,7 @@ const roadmapStyles = StyleSheet.create({
   "text-1-container": {
     flex: 1,
     marginTop: 120,
+    marginLeft: -50,
   },
   "text-1": {
     color: "#fff",
