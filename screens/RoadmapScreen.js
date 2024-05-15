@@ -24,20 +24,20 @@ const RoadmapScreen = () => {
   }));
 
   React.useEffect(() => {
-    offset1.value = withRepeat(withTiming(-40, { duration: 700 }), 1, true);
-    offset2.value = withRepeat(withTiming(-40, { duration: 1400 }), 1, true);
-    offset3.value = withRepeat(withTiming(-40, { duration: 2100 }), 1, true);
+    offset1.value = withRepeat(withTiming(0, { duration: 700 }), 1, true);
+    offset2.value = withRepeat(withTiming(0, { duration: 1400 }), 1, true);
+    offset3.value = withRepeat(withTiming(0, { duration: 2100 }), 1, true);
   }, []);
   return (
     <View id="roadmap-container" style={roadmapStyles["text-1-container"]}>
       <Animated.View style={[animatedText1]}>
-        <Text style={roadmapStyles["text-1"]}>Only roadmap you need</Text>
+        <Text style={roadmapStyles["text-1"]}>Only roadmap </Text>
       </Animated.View>
       <Animated.View style={[animatedText2]}>
-        <Text style={roadmapStyles["text-1"]}>to become a fullstack</Text>
+        <Text style={roadmapStyles["text-1"]}>You need to become</Text>
       </Animated.View>
       <Animated.View style={[animatedText3]}>
-        <Text style={roadmapStyles["text-1"]}>Web developer in 2024!</Text>
+        <Text style={roadmapStyles["text-1"]}>A fullstack Web developer!</Text>
       </Animated.View>
     </View>
   );
@@ -52,7 +52,7 @@ const roadmapStyles = StyleSheet.create({
   "text-1": {
     color: "#fff",
     fontSize: "24",
-    textTransform: "capitalize",
+    // textTransform: "uppercase",
     letterSpacing: "1",
     marginBottom: 10,
   },
