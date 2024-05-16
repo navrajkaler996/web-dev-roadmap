@@ -14,10 +14,23 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated";
 
+import { useFonts } from "expo-font";
+
+import AppLoading from "expo-app-loading";
+
 const BASE_HEADING_FONT_SIZE = 24;
 const adjustedFontSize = PixelRatio.getFontScale() * BASE_HEADING_FONT_SIZE;
 
 const RoadmapScreen = () => {
+  const [fontsLoaded] = useFonts({
+    "font-family-1": require("../assets/fonts/Merriweather-Regular.ttf"),
+    "font-family-2": require("../assets/fonts/Merriweather-Bold.ttf"),
+  });
+
+  // if (!fontsLoaded) {
+  //   return <AppLoading />;
+  // }
+
   const offset1 = useSharedValue(300);
   const offset2 = useSharedValue(600);
   const offset3 = useSharedValue(900);
@@ -85,6 +98,7 @@ const roadmapStyles = StyleSheet.create({
     fontSize: adjustedFontSize,
     letterSpacing: "1",
     marginBottom: 10,
+    fontFamily: "font-family-2",
   },
   "text-primary-container": {
     position: "absolute",
@@ -95,6 +109,7 @@ const roadmapStyles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     letterSpacing: "1",
+    fontFamily: "font-family-1",
   },
   "text-background": {
     backgroundColor: "#001645",
