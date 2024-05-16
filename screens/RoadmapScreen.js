@@ -1,5 +1,11 @@
 import React, { useRef } from "react";
-import { StyleSheet, Text, View, useAnimatedValue } from "react-native";
+import {
+  PixelRatio,
+  StyleSheet,
+  Text,
+  View,
+  useAnimatedValue,
+} from "react-native";
 
 import Animated, {
   useSharedValue,
@@ -7,6 +13,9 @@ import Animated, {
   withRepeat,
   withTiming,
 } from "react-native-reanimated";
+
+const BASE_HEADING_FONT_SIZE = 24;
+const adjustedFontSize = PixelRatio.getFontScale() * BASE_HEADING_FONT_SIZE;
 
 const RoadmapScreen = () => {
   const offset1 = useSharedValue(300);
@@ -29,16 +38,37 @@ const RoadmapScreen = () => {
     offset3.value = withRepeat(withTiming(0, { duration: 2100 }), 1, true);
   }, []);
   return (
-    <View id="roadmap-container" style={roadmapStyles["text-1-container"]}>
-      <Animated.View style={[animatedText1]}>
-        <Text style={roadmapStyles["text-1"]}>Only roadmap </Text>
-      </Animated.View>
-      <Animated.View style={[animatedText2]}>
-        <Text style={roadmapStyles["text-1"]}>You need to become</Text>
-      </Animated.View>
-      <Animated.View style={[animatedText3]}>
-        <Text style={roadmapStyles["text-1"]}>A fullstack Web developer!</Text>
-      </Animated.View>
+    <View>
+      <View id="roadmap-container" style={roadmapStyles["text-1-container"]}>
+        <Animated.View style={[animatedText1]}>
+          <Text style={roadmapStyles["text-1"]}>Only roadmap </Text>
+        </Animated.View>
+        <Animated.View style={[animatedText2]}>
+          <Text style={roadmapStyles["text-1"]}>You need to become</Text>
+        </Animated.View>
+        <Animated.View style={[animatedText3]}>
+          <Text style={roadmapStyles["text-1"]}>
+            A fullstack Web developer!
+          </Text>
+        </Animated.View>
+        <View style={roadmapStyles["text-primary-container"]}>
+          <View style={roadmapStyles["text-background"]}>
+            <Text style={roadmapStyles["text-primary"]}>
+              Learning web development is not tough
+            </Text>
+          </View>
+          <View style={roadmapStyles["text-background"]}>
+            <Text style={{ ...roadmapStyles["text-primary"] }}>
+              If you are following a proper roadmap.
+            </Text>
+          </View>
+          <View style={roadmapStyles["text-background"]}>
+            <Text style={{ ...roadmapStyles["text-primary"] }}>
+              We will help you!
+            </Text>
+          </View>
+        </View>
+      </View>
     </View>
   );
 };
@@ -48,22 +78,32 @@ const roadmapStyles = StyleSheet.create({
   "text-1-container": {
     flex: 1,
     marginTop: 120,
-    marginLeft: -50,
+    // marginLeft: -50,
   },
   "text-1": {
     color: "#fff",
-    fontSize: "24",
-    // textTransform: "uppercase",
+    fontSize: adjustedFontSize,
     letterSpacing: "1",
     marginBottom: 10,
   },
-  "text-3": {
+  "text-primary-container": {
+    position: "absolute",
+    top: 140,
+  },
+  "text-primary": {
     color: "#fff",
-    fontSize: "24",
-    textTransform: "uppercase",
+    textAlign: "center",
+    fontSize: 16,
     letterSpacing: "1",
-    marginBottom: 10,
-    fontSize: 30,
+  },
+  "text-background": {
+    backgroundColor: "#001645",
+    paddingRight: 40,
+    paddingLeft: 40,
+    paddingTop: 5,
+    paddingBottom: 5,
+    marginTop: 5,
+    marginBottom: 5,
   },
 });
 
