@@ -26,7 +26,7 @@ const RoadmapScreen = () => {
 };
 
 const roadmapStyles = StyleSheet.create({
-  conatiner: { flex: 1 },
+  conatiner: { flex: 1, backgroundColor: "#F5F5F5" },
 
   "progress-container": {
     marginTop: 80,
@@ -34,6 +34,16 @@ const roadmapStyles = StyleSheet.create({
     marginRight: 10,
     flexDirection: "row",
     alignItems: "flex-end",
+    backgroundColor: "#fff",
+    paddingTop: 20,
+    paddingBottom: 20,
+    paddingLeft: 10,
+    paddingRight: 10,
+    borderRadius: 0,
+    shadowColor: "#171717",
+    shadowOffset: { width: -2, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 3,
   },
 });
 
