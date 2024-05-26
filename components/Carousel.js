@@ -6,7 +6,7 @@ import Carousel from "react-native-reanimated-carousel";
 
 const data = [
   {
-    text: "Start from basics",
+    text: "Learn where to start",
     images: [
       require("../assets/images/html-5.png"),
       require("../assets/images/css-3.png"),
@@ -27,26 +27,17 @@ const data = [
   {
     text: "Understand the market",
   },
+  {
+    text: "Where to go next",
+  },
 ];
 
 function Index() {
   const [fontsLoaded] = useFonts({
-    "font-family-1": require("../assets/fonts/Poppins-Regular.ttf"),
-    "font-family-2": require("../assets/fonts/Poppins-Bold.ttf"),
+    "font-family-1": require("../assets/fonts/Jost-Black.ttf"),
+    "font-family-2": require("../assets/fonts/Jost-Bold.ttf"),
   });
-  //   const animationStyle = React.useCallback((value) => {
-  //     "worklet";
 
-  //     const zIndex = interpolate(value, [-1, 0, 1], [10, 20, 30]);
-  //     const scale = interpolate(value, [-1, 0, 1], [1.25, 1, 0.25]);
-  //     const opacity = interpolate(value, [-0.75, 0, 1], [0, 1, 0]);
-
-  //     return {
-  //       transform: [{ scale }],
-  //       zIndex,
-  //       opacity,
-  //     };
-  //   }, []);
   const width = Dimensions.get("window").width;
   return (
     <View style={{ height: 100 }}>
@@ -93,7 +84,7 @@ const carouselStyles = StyleSheet.create({
     fontSize: 18,
     letterSpacing: 1,
     textTransform: "uppercase",
-    color: "#fff",
+    color: "#000",
     fontFamily: "font-family-2",
     marginBottom: 16,
   },

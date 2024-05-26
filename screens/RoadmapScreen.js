@@ -4,127 +4,109 @@ import {
   StyleSheet,
   Text,
   View,
-  useAnimatedValue,
   Animated as Animated2,
   Image,
 } from "react-native";
 
-import Animated, {
-  useSharedValue,
-  useAnimatedStyle,
-  withRepeat,
-  withTiming,
-} from "react-native-reanimated";
-
 import { useFonts } from "expo-font";
 
-import { Button, ButtonGroup } from "react-native-elements";
+import { Button } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
 
 import Carousel from "../components/Carousel.js";
 
-const BASE_HEADING_FONT_SIZE = 20;
+const BASE_HEADING_FONT_SIZE = 24;
 const adjustedFontSize = PixelRatio.getFontScale() * BASE_HEADING_FONT_SIZE;
 
 const RoadmapScreen = () => {
   const [fontsLoaded] = useFonts({
-    "font-family-1": require("../assets/fonts/Poppins-Regular.ttf"),
-    "font-family-2": require("../assets/fonts/Poppins-Bold.ttf"),
-    "font-family-3": require("../assets/fonts/Poppins-Italic.ttf"),
+    "font-family-1": require("../assets/fonts/Jost-Black.ttf"),
+    "font-family-2": require("../assets/fonts/Jost-Bold.ttf"),
+    "font-family-3": require("../assets/fonts/Jost-Italic.ttf"),
+    "font-family-4": require("../assets/fonts/Jost-SemiBold.ttf"),
+    "Lato-regular": require("../assets/fonts/Lato-Black.ttf"),
   });
 
   return (
     <>
       <LinearGradient
-        colors={["#0172B2", "#001645"]}
+        colors={["#2BC0E4", "#EAECC6"]}
         style={roadmapStyles.container}>
+        <View style={{ alignItems: "center", marginTop: 30 }}>
+          <Text style={roadmapStyles["text-1"]}>Web dev roadmap</Text>
+          <Text style={roadmapStyles["text-2"]}>
+            A guide to become a full stack web developer
+          </Text>
+        </View>
         <Image
-          source={require("../assets/images/roadmap-logo.png")}
+          source={require("../assets/images/logo-demo.png")}
           style={{
-            width: 200,
-            height: 200,
+            width: "100%",
+            height: 300,
             marginLeft: "auto",
             marginRight: "auto",
+            position: "absolute",
+            bottom: 0,
           }}
         />
-        <View style={{ alignItems: "left", marginLeft: 10 }}>
-          <Text style={roadmapStyles["text-1"]}>A proper path</Text>
-          <Text style={roadmapStyles["text-1"]}>A proper skill set</Text>
-          <Text style={roadmapStyles["text-1"]}>A proper web developer</Text>
-        </View>
-        <View
-          id="headings-container-2"
-          style={{
-            flexDirection: "column",
-            alignItems: "flex-end",
-            marginRight: 20,
-          }}>
-          {/* <Text style={roadmapStyles["text-primary"]}>
-            Follow • Learn • Develop
-          </Text> */}
-          <Text style={roadmapStyles["text-primary"]}>Follow</Text>
-          <Text style={roadmapStyles["text-primary"]}>Learn</Text>
-          <Text style={roadmapStyles["text-primary"]}>Develop</Text>
-          {/* <Text style={roadmapStyles["text-secondary"]}>
-            A roadmap helps you learn the right skills in the right order,
-            giving you a clear path from beginner to building your own web apps.
-          </Text> */}
-        </View>
-
-        <View style={{ position: "absolute", bottom: 20 }}>
-          <Carousel />
-        </View>
       </LinearGradient>
-      <LinearGradient
-        colors={["#fff", "#fff"]}
-        style={roadmapStyles["container-2"]}>
+      <View style={roadmapStyles["container-2"]}>
         <View>
-          {/* <Text style={roadmapStyles["text-primary"]}>
-            Follow • Learn • Develop
-          </Text> */}
           <View
             style={{
               marginTop: 50,
-              // flexDirection: "row",
-              // justifyContent: "center",
             }}>
+            <View>
+              <Carousel />
+            </View>
             <Button
-              title="GET STARTED"
+              title="Start your journey"
               // type="outline"
-              containerStyle={{ width: "100" }}
+              containerStyle={{
+                width: 300,
+                marginHorizontal: "auto",
+                marginVertical: 30,
+              }}
               buttonStyle={{
                 borderColor: "#fff",
                 borderRadius: 60,
-                color: "#fff",
-                paddingRight: 100,
-                paddingLeft: 100,
-                paddingTop: 20,
-                paddingBottom: 20,
+                color: "#000",
 
-                backgroundColor: "#001645",
-                fontFamily: "font-family-2",
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 4,
+              }}
+              ViewComponent={LinearGradient}
+              linearGradientProps={{
+                colors: ["#2BC0E4", "#EAECC6"], // Your desired colors
+                start: { x: 0, y: 0.5 }, // Optional: Control gradient start position
+                end: { x: 1, y: 0.5 }, // Optional: Control gradient end position
+              }}
+              titleStyle={{
+                color: "#000",
+                fontFamily: "Lato-regular",
+                letterSpacing: 1,
               }}
             />
           </View>
         </View>
-      </LinearGradient>
+      </View>
     </>
   );
 };
 
 const roadmapStyles = StyleSheet.create({
   container: {
-    flex: 0.8,
-    // alignItems: "center",
-    // marginRight: 6,
-    // marginLeft: 6,
+    flex: 0.6,
+
     borderBottomLeftRadius: 30,
     borderBottomRightRadius: 30,
-    paddingTop: 100,
+    paddingTop: 80,
     position: "relative",
   },
   "container-2": {
-    flex: 0.2,
+    flex: 0.4,
     alignItems: "center",
     marginRight: 6,
     marginLeft: 6,
@@ -137,11 +119,21 @@ const roadmapStyles = StyleSheet.create({
     marginTop: 120,
   },
   "text-1": {
-    color: "#fff",
-    fontSize: adjustedFontSize,
-    letterSpacing: "1",
+    color: "#000",
+    fontSize: adjustedFontSize + 2,
+    letterSpacing: "1.5",
     marginBottom: 10,
-    fontFamily: "font-family-2",
+    fontFamily: "font-family-1",
+    textTransform: "uppercase",
+  },
+  "text-2": {
+    color: "#000",
+    fontSize: adjustedFontSize - 6,
+    letterSpacing: "1.5",
+    marginBottom: 10,
+    fontFamily: "Lato-regular",
+
+    textAlign: "center",
   },
   "text-primary-container": {
     position: "absolute",
