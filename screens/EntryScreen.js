@@ -18,7 +18,7 @@ import Carousel from "../components/Carousel.js";
 const BASE_HEADING_FONT_SIZE = 24;
 const adjustedFontSize = PixelRatio.getFontScale() * BASE_HEADING_FONT_SIZE;
 
-const RoadmapScreen = () => {
+const EntryScreen = () => {
   const [fontsLoaded] = useFonts({
     "font-family-1": require("../assets/fonts/Jost-Black.ttf"),
     "font-family-2": require("../assets/fonts/Jost-Bold.ttf"),
@@ -31,10 +31,10 @@ const RoadmapScreen = () => {
     <>
       <LinearGradient
         colors={["#2BC0E4", "#EAECC6"]}
-        style={roadmapStyles.container}>
+        style={entryScreenStyles.container}>
         <View style={{ alignItems: "center", marginTop: 30 }}>
-          <Text style={roadmapStyles["text-1"]}>Web dev roadmap</Text>
-          <Text style={roadmapStyles["text-2"]}>
+          <Text style={entryScreenStyles["text-1"]}>Web dev roadmap</Text>
+          <Text style={entryScreenStyles["text-2"]}>
             A guide to become a full stack web developer
           </Text>
         </View>
@@ -50,7 +50,7 @@ const RoadmapScreen = () => {
           }}
         />
       </LinearGradient>
-      <View style={roadmapStyles["container-2"]}>
+      <View style={entryScreenStyles["container-2"]}>
         <View>
           <View
             style={{
@@ -96,7 +96,7 @@ const RoadmapScreen = () => {
   );
 };
 
-const roadmapStyles = StyleSheet.create({
+const entryScreenStyles = StyleSheet.create({
   container: {
     flex: 0.6,
 
@@ -181,4 +181,4 @@ const roadmapStyles = StyleSheet.create({
   },
 });
 
-export default RoadmapScreen;
+export default EntryScreen;
