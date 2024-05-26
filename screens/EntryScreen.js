@@ -18,7 +18,7 @@ import Carousel from "../components/Carousel.js";
 const BASE_HEADING_FONT_SIZE = 24;
 const adjustedFontSize = PixelRatio.getFontScale() * BASE_HEADING_FONT_SIZE;
 
-const EntryScreen = () => {
+const EntryScreen = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
     "font-family-1": require("../assets/fonts/Jost-Black.ttf"),
     "font-family-2": require("../assets/fonts/Jost-Bold.ttf"),
@@ -88,6 +88,7 @@ const EntryScreen = () => {
                 fontFamily: "Lato-regular",
                 letterSpacing: 1,
               }}
+              onPress={() => navigation.navigate("RoadmapScreen")}
             />
           </View>
         </View>
