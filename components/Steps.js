@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import Button from "./Button";
 
 const Steps = ({ item, index, length }) => {
   const [expand, setExpand] = useState(false);
@@ -27,6 +28,7 @@ const Steps = ({ item, index, length }) => {
             ...stepsStyles["steps-container"],
             ...stepsStyles["resusable-conatiner"],
             ...stepsStyles["shadow-1"],
+            marginBottom: !expand ? 100 : 20,
           }}>
           <Text style={stepsStyles["text-title"]}>{item.title}</Text>
           <Text style={stepsStyles["text-modules"]}>12/20</Text>
@@ -61,17 +63,45 @@ const Steps = ({ item, index, length }) => {
                   {item.essentialTopics} not-to-be missed topics
                 </Text>
               </View>
+              <View style={stepsStyles["button-container"]}>
+                <Button title="start" styles={{}} />
+                {/* <Button
+                  title="Start"
+                  containerStyle={{
+                    width: 300,
+                    marginHorizontal: "auto",
+                    marginVertical: 5,
+                  }}
+                  buttonStyle={{
+                    color: "red",
+                    shadowColor: "#000",
+                    shadowOffset: { width: 0, height: 2 },
+                    shadowOpacity: 0.25,
+                    shadowRadius: 4,
+                  }}
+                  titleStyle={{
+                    color: "#fff",
+                    fontFamily: "Lato-regular",
+                    letterSpacing: 1,
+                    textTransform: "uppercase",
+                  }}
+                /> */}
+              </View>
             </View>
           )}
         </View>
+        {index !== length - 1 && (
+          <View
+            style={{
+              ...stepsStyles["progress-line"],
+              ...stepsStyles["shadow-1"],
+              position: "absolute",
+              top: 50,
+              left: -8,
+              height: expand ? 130 : 70,
+            }}></View>
+        )}
       </View>
-      {index !== length - 1 && (
-        <View
-          style={{
-            ...stepsStyles["progress-line"],
-            ...stepsStyles["shadow-1"],
-          }}></View>
-      )}
     </>
   );
 };
@@ -122,9 +152,9 @@ const stepsStyles = StyleSheet.create({
 
     width: 4,
     backgroundColor: "#fff",
-    marginLeft: 32,
-    marginTop: 10,
-    marginBottom: 10,
+    // marginLeft: 32,
+    // marginTop: 10,
+    // marginBottom: 10,
   },
 
   "shadow-1": {
@@ -182,8 +212,13 @@ const stepsStyles = StyleSheet.create({
   "course-essential-topics": {
     marginLeft: 10,
     fontSize: 14,
-    letterSpacing: 0.7,
-    fontFamily: "lato-black",
+    letterSpacing: 1,
+    fontFamily: "lato-regular",
+  },
+
+  "button-container": {
+    marginTop: 5,
+    marginBottom: 5,
   },
 });
 

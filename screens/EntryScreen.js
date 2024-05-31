@@ -77,12 +77,7 @@ const EntryScreen = ({ navigation }) => {
                 shadowOpacity: 0.25,
                 shadowRadius: 4,
               }}
-              ViewComponent={LinearGradient}
-              linearGradientProps={{
-                colors: ["#2BC0E4", "#EAECC6"], // Your desired colors
-                start: { x: 0, y: 0.5 }, // Optional: Control gradient start position
-                end: { x: 1, y: 0.5 }, // Optional: Control gradient end position
-              }}
+              ViewComponent={View}
               titleStyle={{
                 color: "#000",
                 fontFamily: "Lato-regular",

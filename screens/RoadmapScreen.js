@@ -1,40 +1,13 @@
 import React from "react";
-import { StyleSheet } from "react-native";
-import { View, Text } from "react-native";
-import { AnimatedCircularProgress } from "react-native-circular-progress";
+import { ScrollView, StyleSheet } from "react-native";
+import { View } from "react-native";
+
 import CircularProgress from "../components/CircularProgress";
 import { useFonts } from "expo-font";
 import ProgressStepBar from "../components/ProgressStepBar";
 import Steps from "../components/Steps";
 
-const list = [
-  {
-    id: 0,
-    title: "Basics of web",
-    description:
-      "Before learning web development i.e. developing websites or web applications, you need to understand what is web and how it works.",
-    started: true,
-    completed: false,
-    totalTopics: 21,
-    essentialTopics: 7,
-  },
-  {
-    id: 1,
-    title: "HTML",
-    started: false,
-    completed: false,
-    totalTopics: 21,
-    essentialTopics: 7,
-  },
-  {
-    id: 2,
-    title: "CSS",
-    started: false,
-    completed: false,
-    totalTopics: 21,
-    essentialTopics: 7,
-  },
-];
+import { topics as list } from "../data/data";
 
 const RoadmapScreen = () => {
   const [fontsLoaded] = useFonts({
@@ -46,22 +19,25 @@ const RoadmapScreen = () => {
     "lato-black": require("../assets/fonts/Lato-Black.ttf"),
   });
   return (
-    <View style={roadmapStyles.conatiner}>
-      <View
-        id="progress"
-        style={{
-          ...roadmapStyles["progress-container"],
-          ...roadmapStyles["resusable-conatiner"],
-          ...roadmapStyles["shadow-1"],
-        }}>
-        <CircularProgress />
-        <ProgressStepBar />
+    <>
+      <View>
+        <View
+          id="progress"
+          style={{
+            ...roadmapStyles["progress-container"],
+            ...roadmapStyles["resusable-conatiner"],
+            ...roadmapStyles["shadow-1"],
+          }}>
+          <CircularProgress />
+          <ProgressStepBar />
+        </View>
       </View>
-
-      {list.map((item, i) => {
-        return <Steps item={item} index={i} length={list.length} />;
-      })}
-    </View>
+      <ScrollView style={roadmapStyles.conatiner}>
+        {list.map((item, i) => {
+          return <Steps item={item} index={i} length={list.length} />;
+        })}
+      </ScrollView>
+    </>
   );
 };
 
@@ -69,12 +45,12 @@ const roadmapStyles = StyleSheet.create({
   conatiner: { flex: 1, backgroundColor: "#F5F5F5" },
 
   "progress-container": {
-    marginTop: 80,
+    marginTop: 60,
     marginBottom: 30,
     marginLeft: 10,
     marginRight: 10,
     flexDirection: "row",
-    alignItems: "flex-end",
+    justifyContent: "center",
     paddingTop: 20,
     paddingBottom: 20,
     paddingLeft: 10,

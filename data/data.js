@@ -6,12 +6,21 @@ export const topics = [
       "Before learning web development i.e. developing websites or web applications, you need to understand what is web and how it works.",
     started: true,
     completed: false,
+    topics: [
+      "How internet works?",
+      "What is HTTP/HTTPS?",
+      "How browsers work?",
+      "What is web hosting?",
+      "What is DNS and how it works",
+    ],
     totalTopics: 16,
     essentialTopics: 7,
   },
   {
     id: 1,
     title: "HTML",
+    description:
+      "HTML is the foundation of creating web pages. Imagine it as the skeleton of a website that defines the structure and content.",
     started: false,
     completed: false,
     totalTopics: 13,
