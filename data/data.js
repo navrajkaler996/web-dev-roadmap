@@ -7,11 +7,26 @@ export const topics = [
     started: true,
     completed: false,
     topics: [
-      "How internet works?",
-      "What is HTTP/HTTPS?",
-      "How browsers work?",
-      "What is web hosting?",
-      "What is DNS and how it works",
+      {
+        name: "How internet works?",
+        level: "red",
+      },
+      {
+        name: "What is HTTP/HTTPS?",
+        level: "red",
+      },
+      {
+        name: "How browsers work?",
+        level: "red",
+      },
+      {
+        name: "What is web hosting?",
+        level: "red",
+      },
+      {
+        name: "What is DNS and how it works",
+        level: "yellow",
+      },
     ],
     totalTopics: 16,
     essentialTopics: 7,

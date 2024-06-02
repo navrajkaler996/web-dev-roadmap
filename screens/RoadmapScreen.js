@@ -9,7 +9,7 @@ import Steps from "../components/Steps";
 
 import { topics as list } from "../data/data";
 
-const RoadmapScreen = () => {
+const RoadmapScreen = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
     "font-family-1": require("../assets/fonts/Jost-Black.ttf"),
     "font-family-2": require("../assets/fonts/Jost-Bold.ttf"),
@@ -18,6 +18,11 @@ const RoadmapScreen = () => {
     "lato-regular": require("../assets/fonts/Lato-Regular.ttf"),
     "lato-black": require("../assets/fonts/Lato-Black.ttf"),
   });
+
+  const onPress = (item) => {
+    navigation.navigate("TopicDetailScreen", { item });
+  };
+
   return (
     <>
       <View>
@@ -34,7 +39,14 @@ const RoadmapScreen = () => {
       </View>
       <ScrollView style={roadmapStyles.conatiner}>
         {list.map((item, i) => {
-          return <Steps item={item} index={i} length={list.length} />;
+          return (
+            <Steps
+              item={item}
+              index={i}
+              length={list.length}
+              onPress={onPress}
+            />
+          );
         })}
       </ScrollView>
     </>

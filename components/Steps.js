@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Button from "./Button";
 
-const Steps = ({ item, index, length }) => {
+const Steps = ({ item, index, length, onPress }) => {
   const [expand, setExpand] = useState(false);
 
   return (
@@ -64,7 +64,13 @@ const Steps = ({ item, index, length }) => {
                 </Text>
               </View>
               <View style={stepsStyles["button-container"]}>
-                <Button title="start" styles={{}} />
+                <Button
+                  title="start"
+                  onPress={() => {
+                    onPress(item);
+                  }}
+                  styles={{}}
+                />
                 {/* <Button
                   title="Start"
                   containerStyle={{
@@ -217,8 +223,8 @@ const stepsStyles = StyleSheet.create({
   },
 
   "button-container": {
-    marginTop: 5,
-    marginBottom: 5,
+    marginTop: 10,
+    marginBottom: 10,
   },
 });
 
