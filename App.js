@@ -4,6 +4,7 @@ import EntryScreen from "./screens/EntryScreen";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import RoadmapScreen from "./screens/RoadmapScreen";
+import TopicDetailScreen from "./screens/TopicDetailScreen";
 
 const Stack = createStackNavigator();
 
@@ -17,6 +18,10 @@ export default function App() {
           }}>
           <Stack.Screen name="EntryScreen" component={EntryScreen} />
           <Stack.Screen name="RoadmapScreen" component={RoadmapScreen} />
+          <Stack.Screen
+            name="TopicDetailScreen"
+            component={TopicDetailScreen}
+          />
           {/* <Stack.Screen name="Notifications" component={Notifications} /> */}
         </Stack.Navigator>
       </NavigationContainer>
