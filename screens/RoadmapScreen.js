@@ -9,6 +9,8 @@ import Steps from "../components/Steps";
 
 import { topics as list } from "../data/data";
 
+import { STYLES } from "../utils/constants";
+
 const RoadmapScreen = ({ navigation }) => {
   const [fontsLoaded] = useFonts({
     "font-family-1": require("../assets/fonts/Jost-Black.ttf"),
@@ -31,12 +33,14 @@ const RoadmapScreen = ({ navigation }) => {
           style={{
             ...roadmapStyles["progress-container"],
             ...roadmapStyles["resusable-conatiner"],
-            ...roadmapStyles["shadow-1"],
+            ...STYLES["shadow-2"],
+            borderRadius: 10,
           }}>
           <CircularProgress />
           <ProgressStepBar />
         </View>
       </View>
+
       <ScrollView style={roadmapStyles.conatiner}>
         {list.map((item, i) => {
           return (
@@ -54,15 +58,20 @@ const RoadmapScreen = ({ navigation }) => {
 };
 
 const roadmapStyles = StyleSheet.create({
-  conatiner: { flex: 1, backgroundColor: "#F5F5F5" },
+  conatiner: {
+    flex: 1,
+
+    backgroundColor: "#F5F5F5",
+    paddingTop: 20,
+  },
 
   "progress-container": {
-    marginTop: 60,
-    marginBottom: 30,
+    marginTop: 80,
+    marginBottom: 20,
     marginLeft: 10,
     marginRight: 10,
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     paddingTop: 20,
     paddingBottom: 20,
     paddingLeft: 10,
@@ -106,8 +115,8 @@ const roadmapStyles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.17,
-    shadowRadius: 2.54,
+    shadowOpacity: 0.2,
+    shadowRadius: 9,
     elevation: 3,
   },
 });

@@ -1,7 +1,8 @@
-import { StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { Text, View } from "react-native";
 import ExpandableList from "../components/ExpandableList";
 import CircularProgress from "../components/CircularProgress";
+import { COLORS, STYLES } from "../utils/constants";
 
 const TopicDetailScreen = ({ route }) => {
   const { params } = route;
@@ -9,20 +10,21 @@ const TopicDetailScreen = ({ route }) => {
   const { item } = params;
 
   return (
-    <View
+    <ScrollView
       id="topic-detail-screen"
       style={topicsDetailStyles["topic-detail-container"]}>
       <View
         style={{
           ...topicsDetailStyles["heading-container"],
-          ...topicsDetailStyles["shadow-1"],
+          ...STYLES["shadow-2"],
+          borderRadius: 10,
         }}>
         <Text style={topicsDetailStyles.heading}>{item?.title}</Text>
         <View style={topicsDetailStyles["progress-container"]}>
           <CircularProgress
             size={80}
             styles={{ fontSize: 10 }}
-            tintColor="red"
+            tintColor={COLORS.red}
             backgroundColor="#ddd"
           />
           <CircularProgress
@@ -34,7 +36,7 @@ const TopicDetailScreen = ({ route }) => {
           <CircularProgress
             size={80}
             styles={{ fontSize: 10 }}
-            tintColor="green"
+            tintColor={COLORS.green}
             backgroundColor="#ddd"
           />
         </View>
@@ -43,7 +45,7 @@ const TopicDetailScreen = ({ route }) => {
             <View
               style={{
                 ...topicsDetailStyles.circle,
-                backgroundColor: "red",
+                backgroundColor: COLORS.red,
 
                 marginRight: 3,
               }}></View>
@@ -63,7 +65,7 @@ const TopicDetailScreen = ({ route }) => {
             <View
               style={{
                 ...topicsDetailStyles.circle,
-                backgroundColor: "green",
+                backgroundColor: COLORS.green,
                 marginRight: 3,
               }}></View>
             <Text style={{ fontSize: 12 }}>Least important</Text>
@@ -75,14 +77,14 @@ const TopicDetailScreen = ({ route }) => {
         item.topics.map((topic) => {
           return <ExpandableList topic={topic} />;
         })}
-    </View>
+    </ScrollView>
   );
 };
 
 const topicsDetailStyles = StyleSheet.create({
   "topic-detail-container": {
-    marginLeft: 10,
-    marginRight: 10,
+    paddingLeft: 10,
+    paddingRight: 10,
   },
   "heading-container": {
     backgroundColor: "#fff",
@@ -108,8 +110,8 @@ const topicsDetailStyles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.17,
-    shadowRadius: 2.54,
+    shadowOpacity: 0.2,
+    shadowRadius: 9,
     elevation: 3,
   },
   heading: {
