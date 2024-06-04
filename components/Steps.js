@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Button from "./Button";
+import { COLORS, STYLES } from "../utils/constants";
 
 const Steps = ({ item, index, length, onPress }) => {
   const [expand, setExpand] = useState(false);
@@ -19,16 +20,23 @@ const Steps = ({ item, index, length, onPress }) => {
           style={{
             ...stepsStyles["steps-circle"],
             ...stepsStyles["shadow-1"],
-            backgroundColor: item.started ? "green" : "red",
+            backgroundColor: item.started ? COLORS.green : COLORS.red,
           }}>
-          <Text style={{ color: "#fff", fontSize: "20" }}>{item.id + 1}</Text>
+          <Text
+            style={{
+              color: "#000",
+              fontFamily: "font-family-1  ",
+              fontSize: "20",
+            }}>
+            {item.id + 1}
+          </Text>
         </View>
         <View
           style={{
             ...stepsStyles["steps-container"],
             ...stepsStyles["resusable-conatiner"],
-            ...stepsStyles["shadow-1"],
-            marginBottom: !expand ? 100 : 20,
+            ...STYLES["shadow-2"],
+            marginBottom: !expand ? 70 : 20,
           }}>
           <Text style={stepsStyles["text-title"]}>{item.title}</Text>
           <Text style={stepsStyles["text-modules"]}>12/20</Text>
@@ -69,29 +77,21 @@ const Steps = ({ item, index, length, onPress }) => {
                   onPress={() => {
                     onPress(item);
                   }}
-                  styles={{}}
-                />
-                {/* <Button
-                  title="Start"
-                  containerStyle={{
-                    width: 300,
-                    marginHorizontal: "auto",
-                    marginVertical: 5,
+                  styles={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+
+                    width: "100%",
+                    backgroundColor: COLORS["btn-primary-1"],
+                    // borderRadius: 20,
+                    flexDirection: "row,",
                   }}
-                  buttonStyle={{
-                    color: "red",
-                    shadowColor: "#000",
-                    shadowOffset: { width: 0, height: 2 },
-                    shadowOpacity: 0.25,
-                    shadowRadius: 4,
-                  }}
-                  titleStyle={{
-                    color: "#fff",
-                    fontFamily: "Lato-regular",
+                  titleStyles={{
+                    fontSize: 14,
                     letterSpacing: 1,
-                    textTransform: "uppercase",
+                    fontFamily: "font-family-2",
                   }}
-                /> */}
+                />
               </View>
             </View>
           )}
@@ -102,9 +102,9 @@ const Steps = ({ item, index, length, onPress }) => {
               ...stepsStyles["progress-line"],
               ...stepsStyles["shadow-1"],
               position: "absolute",
-              top: 50,
+              top: 55,
               left: -8,
-              height: expand ? 130 : 70,
+              height: expand ? 130 : 50,
             }}></View>
         )}
       </View>
@@ -113,7 +113,7 @@ const Steps = ({ item, index, length, onPress }) => {
 };
 
 const stepsStyles = StyleSheet.create({
-  conatiner: { flex: 1, backgroundColor: "#F5F5F5" },
+  conatiner: { flex: 1, backgroundColor: "#5A5858" },
 
   "progress-container": {
     marginTop: 80,
@@ -131,6 +131,9 @@ const stepsStyles = StyleSheet.create({
   "resusable-conatiner": {
     backgroundColor: "#fff",
     borderRadius: 0,
+    paddingTop: 8,
+    paddingBottom: 8,
+    borderRadius: 10,
   },
 
   "steps-container": {
@@ -142,6 +145,7 @@ const stepsStyles = StyleSheet.create({
     paddingTop: 2,
 
     paddingLeft: 8,
+    paddingRight: 8,
   },
   "steps-circle": {
     backgroundColor: "#fff",
@@ -154,7 +158,7 @@ const stepsStyles = StyleSheet.create({
   },
 
   "progress-line": {
-    minHeight: 80,
+    minHeight: 20,
 
     width: 4,
     backgroundColor: "#fff",
@@ -169,13 +173,13 @@ const stepsStyles = StyleSheet.create({
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.17,
-    shadowRadius: 2.54,
+    shadowOpacity: 0.3,
+    shadowRadius: 5,
     elevation: 3,
   },
 
   "text-title": {
-    fontFamily: "font-family-2",
+    fontFamily: "font-family-1",
     letterSpacing: 0.7,
   },
   "text-modules": {

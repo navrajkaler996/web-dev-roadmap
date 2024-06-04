@@ -9,11 +9,11 @@ import {
 } from "react-native";
 
 import { useFonts } from "expo-font";
-
-import { Button } from "react-native-elements";
 import { LinearGradient } from "expo-linear-gradient";
 
 import Carousel from "../components/Carousel.js";
+import Button from "../components/Button.js";
+import { COLORS } from "../utils/constants.js";
 
 const BASE_HEADING_FONT_SIZE = 24;
 const adjustedFontSize = PixelRatio.getFontScale() * BASE_HEADING_FONT_SIZE;
@@ -30,7 +30,7 @@ const EntryScreen = ({ navigation }) => {
   return (
     <>
       <LinearGradient
-        colors={["#2BC0E4", "#EAECC6"]}
+        colors={["#68d8d6", "#c4fff9"]}
         style={entryScreenStyles.container}>
         <View style={{ alignItems: "center", marginTop: 30 }}>
           <Text style={entryScreenStyles["text-1"]}>Web dev roadmap</Text>
@@ -61,6 +61,28 @@ const EntryScreen = ({ navigation }) => {
             </View>
             <Button
               title="Start your journey"
+              styles={{
+                width: "auto",
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: 30,
+                paddingLeft: 25,
+                paddingRight: 25,
+                paddingTop: 12,
+                paddingBottom: 12,
+                backgroundColor: COLORS["btn-primary-1"],
+                borderRadius: 20,
+              }}
+              titleStyles={{
+                fontSize: 14,
+                letterSpacing: 1,
+                fontFamily: "font-family-2",
+              }}
+              image="right-arrow"
+              onPress={() => navigation.navigate("RoadmapScreen")}
+            />
+            {/* <Button
+              title="Start your journey"
               // type="outline"
               containerStyle={{
                 width: 300,
@@ -83,8 +105,8 @@ const EntryScreen = ({ navigation }) => {
                 fontFamily: "Lato-regular",
                 letterSpacing: 1,
               }}
-              onPress={() => navigation.navigate("RoadmapScreen")}
-            />
+      
+            /> */}
           </View>
         </View>
       </View>

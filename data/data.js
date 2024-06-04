@@ -28,8 +28,9 @@ export const topics = [
         level: "yellow",
       },
     ],
-    totalTopics: 16,
-    essentialTopics: 7,
+    totalTopics: 5,
+    topicsCompleted: 0,
+    essentialTopics: 4,
   },
   {
     id: 1,
@@ -38,8 +39,63 @@ export const topics = [
       "HTML is the foundation of creating web pages. Imagine it as the skeleton of a website that defines the structure and content.",
     started: false,
     completed: false,
+    topics: [
+      {
+        name: "Document Object Model",
+        level: "red",
+      },
+      {
+        name: "Understanding HTML tags/elements",
+        level: "red",
+      },
+      {
+        name: "Block and inline elements",
+        level: "red",
+      },
+      {
+        name: "Semantic vs non-semantic elements",
+        level: "red",
+      },
+      {
+        name: "HTML forms",
+        level: "red",
+      },
+      {
+        name: "HTML input fields",
+        level: "red",
+      },
+      {
+        name: "Semantic vs non-semantic elements",
+        level: "red",
+      },
+      {
+        name: "HTML canvas",
+        level: "yellow",
+      },
+      {
+        name: "HTML media",
+        level: "yellow",
+      },
+      {
+        name: "HTML web storage",
+        level: "yellow",
+      },
+      {
+        name: "HTML geolocation API",
+        level: "green",
+      },
+      {
+        name: "HTML Drag/Drop",
+        level: "green",
+      },
+      {
+        name: "HTML web workers",
+        level: "green",
+      },
+    ],
     totalTopics: 13,
-    essentialTopics: 3,
+    topicsCompleted: 0,
+    essentialTopics: 7,
   },
   {
     id: 2,
