@@ -9,7 +9,6 @@ const CircularProgress = ({
   backgroundColor,
   styles,
 }) => {
-  console.log(progressData);
   return (
     <AnimatedCircularProgress
       size={size ? size : 110}

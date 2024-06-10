@@ -7,19 +7,49 @@ import { useFonts } from "expo-font";
 import ProgressStepBar from "../components/ProgressStepBar";
 import Steps from "../components/Steps";
 
-import { topics as list } from "../data/data";
-
 import { STYLES } from "../utils/constants";
 import { useGetCoursesQuery } from "../services/course-services";
 import Loader from "../components/Loader";
 
-const RoadmapScreen = ({ navigation }) => {
+const modifyList = (list, userData) => {
+  return list.map((course) => {
+    if (userData?.coursesStarted?.includes(course.id)) {
+      const temp = {
+        started: true,
+        completed: false,
+      };
+
+      return {
+        ...course,
+        ...temp,
+      };
+    } else if (userData?.coursesCompleted?.includes(course.id)) {
+      const temp = {
+        started: true,
+        completed: true,
+      };
+      return {
+        ...course,
+        ...temp,
+      };
+    }
+
+    return course;
+  });
+};
+
+const RoadmapScreen = ({ route, navigation }) => {
   const { data, isLoading, isError, error } = useGetCoursesQuery();
 
   const [progressData, setProgressData] = useState({
     totalTopics: undefined,
     totalTopicsCompleted: undefined,
   });
+
+  const [coursesList, setCoursesList] = useState([]);
+
+  const { params } = route;
+  const { userData } = params;
 
   useEffect(() => {
     if (!isLoading && data?.length > 0) {
@@ -39,6 +69,14 @@ const RoadmapScreen = ({ navigation }) => {
       });
     }
   }, [isLoading, data]);
+
+  useEffect(() => {
+    if (data && userData) {
+      const list = modifyList(data, userData);
+
+      if (list?.length > 0) setCoursesList(list);
+    }
+  }, [data, userData]);
 
   const [fontsLoaded] = useFonts({
     "font-family-1": require("../assets/fonts/Jost-Black.ttf"),
@@ -78,9 +116,9 @@ const RoadmapScreen = ({ navigation }) => {
             <Loader />
           ) : (
             <ScrollView style={roadmapStyles.conatiner}>
-              {data &&
-                data?.length > 0 &&
-                data.map((item, i) => {
+              {coursesList &&
+                coursesList?.length > 0 &&
+                coursesList.map((item, i) => {
                   return (
                     <Steps
                       item={item}

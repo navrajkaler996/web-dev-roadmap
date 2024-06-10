@@ -20,7 +20,8 @@ const Steps = ({ item, index, length, onPress }) => {
           style={{
             ...stepsStyles["steps-circle"],
             ...stepsStyles["shadow-1"],
-            backgroundColor: item.started ? COLORS.green : COLORS.red,
+            backgroundColor:
+              item.started && !item.completed ? COLORS.green : COLORS.red,
           }}>
           <Text
             style={{
