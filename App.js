@@ -9,6 +9,7 @@ import { useGetCoursesQuery } from "./services/course-services";
 
 import { Provider } from "react-redux";
 import { store } from "./store";
+import LoginScreen from "./screens/LoginScreen";
 
 const Stack = createStackNavigator();
 
@@ -27,6 +28,7 @@ export default function App() {
               name="TopicDetailScreen"
               component={TopicDetailScreen}
             />
+            <Stack.Screen name="LoginScreen" component={LoginScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </View>

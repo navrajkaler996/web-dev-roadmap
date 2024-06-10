@@ -50,7 +50,11 @@ const EntryScreen = ({ navigation }) => {
           }}
         />
       </LinearGradient>
-      <View style={entryScreenStyles["container-2"]}>
+
+      <View
+        style={{
+          ...entryScreenStyles["container-2"],
+        }}>
         <View>
           <View
             style={{
@@ -79,34 +83,8 @@ const EntryScreen = ({ navigation }) => {
                 fontFamily: "font-family-2",
               }}
               image="right-arrow"
-              onPress={() => navigation.navigate("RoadmapScreen")}
+              onPress={() => navigation.navigate("LoginScreen")}
             />
-            {/* <Button
-              title="Start your journey"
-              // type="outline"
-              containerStyle={{
-                width: 300,
-                marginHorizontal: "auto",
-                marginVertical: 30,
-              }}
-              buttonStyle={{
-                borderColor: "#fff",
-                borderRadius: 60,
-                color: "#000",
-
-                shadowColor: "#000",
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.25,
-                shadowRadius: 4,
-              }}
-              ViewComponent={View}
-              titleStyle={{
-                color: "#000",
-                fontFamily: "Lato-regular",
-                letterSpacing: 1,
-              }}
-      
-            /> */}
           </View>
         </View>
       </View>
