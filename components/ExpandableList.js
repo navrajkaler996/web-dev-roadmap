@@ -73,7 +73,7 @@ const expandableListStyles = StyleSheet.create({
     paddingLeft: 5,
     paddingRight: 5,
     width: "100",
-    marginBottom: 10,
+    marginBottom: 15,
   },
 
   "list-container": {

@@ -39,7 +39,9 @@ const Steps = ({ item, index, length, onPress }) => {
             marginBottom: !expand ? 70 : 20,
           }}>
           <Text style={stepsStyles["text-title"]}>{item.title}</Text>
-          <Text style={stepsStyles["text-modules"]}>12/20</Text>
+          <Text style={stepsStyles["text-modules"]}>
+            {item.topicsCompleted}/{item.totalTopics}
+          </Text>
           <Pressable
             style={stepsStyles["down-arrow-container"]}
             onPress={() => {

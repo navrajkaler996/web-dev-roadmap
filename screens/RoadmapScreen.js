@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { ScrollView, StyleSheet } from "react-native";
+import React, { useEffect, useState } from "react";
+import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
 import { View } from "react-native";
 
 import CircularProgress from "../components/CircularProgress";
@@ -11,11 +11,34 @@ import { topics as list } from "../data/data";
 
 import { STYLES } from "../utils/constants";
 import { useGetCoursesQuery } from "../services/course-services";
+import Loader from "../components/Loader";
 
 const RoadmapScreen = ({ navigation }) => {
   const { data, isLoading, isError, error } = useGetCoursesQuery();
 
-  useEffect(() => {}, [isLoading, data]);
+  const [progressData, setProgressData] = useState({
+    totalTopics: undefined,
+    totalTopicsCompleted: undefined,
+  });
+
+  useEffect(() => {
+    if (!isLoading && data?.length > 0) {
+      const totalTopics = data.reduce((total, item) => {
+        return total + item.totalTopics;
+      }, 0);
+
+      const totalTopicsCompleted = data.reduce((total, item) => {
+        return total + item.topicsCompleted;
+      }, 0);
+
+      setProgressData((prev) => {
+        return {
+          totalTopics: totalTopics,
+          totalTopicsCompleted: totalTopicsCompleted,
+        };
+      });
+    }
+  }, [isLoading, data]);
 
   const [fontsLoaded] = useFonts({
     "font-family-1": require("../assets/fonts/Jost-Black.ttf"),
@@ -32,32 +55,45 @@ const RoadmapScreen = ({ navigation }) => {
 
   return (
     <>
-      <View>
-        <View
-          id="progress"
-          style={{
-            ...roadmapStyles["progress-container"],
-            ...roadmapStyles["resusable-conatiner"],
-            ...STYLES["shadow-2"],
-            borderRadius: 10,
-          }}>
-          <CircularProgress />
-          <ProgressStepBar />
-        </View>
-      </View>
-
-      <ScrollView style={roadmapStyles.conatiner}>
-        {list.map((item, i) => {
-          return (
-            <Steps
-              item={item}
-              index={i}
-              length={list.length}
-              onPress={onPress}
-            />
-          );
-        })}
-      </ScrollView>
+      {isLoading &&
+      progressData.totalTopics &&
+      progressData.totalTopicsCompleted ? (
+        <Loader />
+      ) : (
+        <>
+          <View>
+            <View
+              id="progress"
+              style={{
+                ...roadmapStyles["progress-container"],
+                ...roadmapStyles["resusable-conatiner"],
+                ...STYLES["shadow-2"],
+                borderRadius: 10,
+              }}>
+              <CircularProgress progressData={progressData} />
+              <ProgressStepBar />
+            </View>
+          </View>
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <ScrollView style={roadmapStyles.conatiner}>
+              {data &&
+                data?.length > 0 &&
+                data.map((item, i) => {
+                  return (
+                    <Steps
+                      item={item}
+                      index={i}
+                      length={data.length}
+                      onPress={onPress}
+                    />
+                  );
+                })}
+            </ScrollView>
+          )}
+        </>
+      )}
     </>
   );
 };

@@ -9,6 +9,8 @@ const TopicDetailScreen = ({ route }) => {
 
   const { item } = params;
 
+  console.log(item);
+
   return (
     <ScrollView
       id="topic-detail-screen"
