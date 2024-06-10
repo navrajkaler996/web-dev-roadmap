@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { View } from "react-native";
 
@@ -10,8 +10,13 @@ import Steps from "../components/Steps";
 import { topics as list } from "../data/data";
 
 import { STYLES } from "../utils/constants";
+import { useGetCoursesQuery } from "../services/course-services";
 
 const RoadmapScreen = ({ navigation }) => {
+  const { data, isLoading, isError, error } = useGetCoursesQuery();
+
+  useEffect(() => {}, [isLoading, data]);
+
   const [fontsLoaded] = useFonts({
     "font-family-1": require("../assets/fonts/Jost-Black.ttf"),
     "font-family-2": require("../assets/fonts/Jost-Bold.ttf"),

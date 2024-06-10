@@ -5,27 +5,32 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import RoadmapScreen from "./screens/RoadmapScreen";
 import TopicDetailScreen from "./screens/TopicDetailScreen";
+import { useGetCoursesQuery } from "./services/course-services";
+
+import { Provider } from "react-redux";
+import { store } from "./store";
 
 const Stack = createStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <NavigationContainer>
-        <Stack.Navigator
-          screenOptions={{
-            headerShown: false,
-          }}>
-          <Stack.Screen name="EntryScreen" component={EntryScreen} />
-          <Stack.Screen name="RoadmapScreen" component={RoadmapScreen} />
-          <Stack.Screen
-            name="TopicDetailScreen"
-            component={TopicDetailScreen}
-          />
-          {/* <Stack.Screen name="Notifications" component={Notifications} /> */}
-        </Stack.Navigator>
-      </NavigationContainer>
-    </View>
+    <Provider store={store}>
+      <View style={styles.container}>
+        <NavigationContainer>
+          <Stack.Navigator
+            screenOptions={{
+              headerShown: false,
+            }}>
+            <Stack.Screen name="EntryScreen" component={EntryScreen} />
+            <Stack.Screen name="RoadmapScreen" component={RoadmapScreen} />
+            <Stack.Screen
+              name="TopicDetailScreen"
+              component={TopicDetailScreen}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </View>
+    </Provider>
   );
 }
 
