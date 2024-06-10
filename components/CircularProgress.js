@@ -2,7 +2,14 @@ import { View, Text } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { COLORS } from "../utils/constants";
 
-const CircularProgress = ({ size, tintColor, backgroundColor, styles }) => {
+const CircularProgress = ({
+  progressData,
+  size,
+  tintColor,
+  backgroundColor,
+  styles,
+}) => {
+  console.log(progressData);
   return (
     <AnimatedCircularProgress
       size={size ? size : 110}
@@ -11,7 +18,9 @@ const CircularProgress = ({ size, tintColor, backgroundColor, styles }) => {
       tintColor={tintColor ? tintColor : COLORS.green}
       backgroundColor={backgroundColor ? backgroundColor : COLORS.red}>
       {() => (
-        <Text style={{ ...styles, fontFamily: "font-family-2" }}>101/220</Text>
+        <Text style={{ ...styles, fontFamily: "font-family-2" }}>
+          {progressData?.totalTopicsCompleted}/{progressData?.totalTopics}
+        </Text>
       )}
     </AnimatedCircularProgress>
   );
