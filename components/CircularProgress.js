@@ -4,16 +4,20 @@ import { COLORS } from "../utils/constants";
 
 const CircularProgress = ({
   progressData,
-  size,
+
   tintColor,
   backgroundColor,
   styles,
 }) => {
   return (
     <AnimatedCircularProgress
-      size={size ? size : 110}
+      size={110}
       width={10}
-      fill={60}
+      fill={
+        Math.floor(
+          (progressData.totalTopicsCompleted / progressData.totalTopics) * 100
+        ) ?? 0
+      }
       tintColor={tintColor ? tintColor : COLORS.green}
       backgroundColor={backgroundColor ? backgroundColor : COLORS.red}>
       {() => (

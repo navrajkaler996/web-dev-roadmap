@@ -88,7 +88,7 @@ const RoadmapScreen = ({ route, navigation }) => {
   });
 
   const onPress = (item) => {
-    navigation.navigate("TopicDetailScreen", { item });
+    navigation.navigate("TopicDetailScreen", { item, userData });
   };
 
   return (
