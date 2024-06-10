@@ -41,7 +41,7 @@ const Steps = ({ item, index, length, onPress }) => {
           }}>
           <Text style={stepsStyles["text-title"]}>{item.title}</Text>
           <Text style={stepsStyles["text-modules"]}>
-            {item.topicsCompleted}/{item.totalTopics}
+            {item.topicsCompleted}/{item.topics?.length}
           </Text>
           <Pressable
             style={stepsStyles["down-arrow-container"]}

@@ -54,7 +54,7 @@ const RoadmapScreen = ({ route, navigation }) => {
   useEffect(() => {
     if (!isLoading && data?.length > 0) {
       const totalTopics = data.reduce((total, item) => {
-        return total + item.totalTopics;
+        return total + item.topics?.length;
       }, 0);
 
       const totalTopicsCompleted = data.reduce((total, item) => {
