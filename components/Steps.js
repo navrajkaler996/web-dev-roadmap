@@ -20,7 +20,8 @@ const Steps = ({ item, index, length, onPress }) => {
           style={{
             ...stepsStyles["steps-circle"],
             ...stepsStyles["shadow-1"],
-            backgroundColor: item.started ? COLORS.green : COLORS.red,
+            backgroundColor:
+              item.started && !item.completed ? COLORS.green : COLORS.red,
           }}>
           <Text
             style={{
@@ -40,7 +41,7 @@ const Steps = ({ item, index, length, onPress }) => {
           }}>
           <Text style={stepsStyles["text-title"]}>{item.title}</Text>
           <Text style={stepsStyles["text-modules"]}>
-            {item.topicsCompleted}/{item.totalTopics}
+            {item.topicsCompleted}/{item.topics?.length}
           </Text>
           <Pressable
             style={stepsStyles["down-arrow-container"]}

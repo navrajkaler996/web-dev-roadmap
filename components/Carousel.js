@@ -48,7 +48,7 @@ function Index() {
         autoPlay={true}
         data={[...data]}
         scrollAnimationDuration={2000}
-        onSnapToItem={(index) => console.log("current index:", index)}
+        // onSnapToItem={(index) => console.log("current index:", index)}
         renderItem={({ item, index }) => (
           <View>
             <Text style={carouselStyles["primary-text"]}>{item.text}</Text>
