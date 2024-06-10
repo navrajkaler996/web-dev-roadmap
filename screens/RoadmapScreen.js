@@ -52,14 +52,14 @@ const RoadmapScreen = ({ route, navigation }) => {
   const { userData } = params;
 
   useEffect(() => {
-    if (!isLoading && data?.length > 0) {
+    if (!isLoading && data?.length > 0 && userData != undefined) {
+      //Finding total number of topics
       const totalTopics = data.reduce((total, item) => {
         return total + item.topics?.length;
       }, 0);
 
-      const totalTopicsCompleted = data.reduce((total, item) => {
-        return total + item.topicsCompleted;
-      }, 0);
+      //Finding total number of topics completed by user
+      const totalTopicsCompleted = userData.topicsCompleted?.length;
 
       setProgressData((prev) => {
         return {
@@ -68,7 +68,7 @@ const RoadmapScreen = ({ route, navigation }) => {
         };
       });
     }
-  }, [isLoading, data]);
+  }, [isLoading, data, userData]);
 
   useEffect(() => {
     if (data && userData) {
@@ -125,6 +125,7 @@ const RoadmapScreen = ({ route, navigation }) => {
                       index={i}
                       length={data.length}
                       onPress={onPress}
+                      topicsCompleted={userData.topicsCompleted}
                     />
                   );
                 })}

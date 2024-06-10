@@ -3,8 +3,20 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Button from "./Button";
 import { COLORS, STYLES } from "../utils/constants";
 
-const Steps = ({ item, index, length, onPress }) => {
+const Steps = ({ item, index, length, onPress, topicsCompleted }) => {
   const [expand, setExpand] = useState(false);
+
+  //Function to find the total number of topics completed by the user
+  //in the course being iterated
+  const getTopicsCompletedForCourse = (topics, topicsCompleted) => {
+    let count = 0;
+
+    topics.forEach((topic) => {
+      if (topicsCompleted?.includes(topic.id)) count++;
+    });
+
+    return count;
+  };
 
   return (
     <>
@@ -41,7 +53,9 @@ const Steps = ({ item, index, length, onPress }) => {
           }}>
           <Text style={stepsStyles["text-title"]}>{item.title}</Text>
           <Text style={stepsStyles["text-modules"]}>
-            {item.topicsCompleted}/{item.topics?.length}
+            {topicsCompleted &&
+              getTopicsCompletedForCourse(item.topics, topicsCompleted)}
+            /{item.topics?.length}
           </Text>
           <Pressable
             style={stepsStyles["down-arrow-container"]}
