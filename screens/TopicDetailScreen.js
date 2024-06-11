@@ -4,6 +4,7 @@ import ExpandableList from "../components/ExpandableList";
 import CircularProgress from "../components/CircularProgress";
 import { COLORS, STYLES } from "../utils/constants";
 import { useEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
 
 const TopicDetailScreen = ({ route }) => {
   const { params } = route;
@@ -19,47 +20,40 @@ const TopicDetailScreen = ({ route }) => {
     greenCompleted: 0,
   });
 
+  const isFocused = useIsFocused();
+
   useEffect(() => {
-    if (item) {
-      let red = (yellow = green = 0);
-      let redCompleted = (yellowCompleted = greenCompleted = 0);
+    if (isFocused) {
+      if (item) {
+        let red = (yellow = green = 0);
+        let redCompleted = (yellowCompleted = greenCompleted = 0);
 
-      item?.topics?.forEach((topic) => {
-        if (topic.level === "red") red++;
-        if (topic.level === "yellow") yellow++;
-        if (topic.level === "green") green++;
+        item?.topics?.forEach((topic) => {
+          if (topic.level === "red") red++;
+          if (topic.level === "yellow") yellow++;
+          if (topic.level === "green") green++;
 
-        if (userData?.topicsCompleted?.includes(topic.id)) {
-          if (topic.level === "red") redCompleted++;
-          if (topic.level === "yellow") yellowCompleted++;
-          if (topic.level === "green") greenCompleted++;
-        }
-      });
+          if (userData?.topicsCompleted?.includes(topic.id)) {
+            if (topic.level === "red") redCompleted++;
+            if (topic.level === "yellow") yellowCompleted++;
+            if (topic.level === "green") greenCompleted++;
+          }
+        });
 
-      setTopicsCount((prev) => {
-        return {
-          ...prev,
-          red,
-          yellow,
-          green,
-          redCompleted,
-          yellowCompleted,
-          greenCompleted,
-        };
-      });
+        setTopicsCount((prev) => {
+          return {
+            ...prev,
+            red,
+            yellow,
+            green,
+            redCompleted,
+            yellowCompleted,
+            greenCompleted,
+          };
+        });
+      }
     }
-
-    // if (userData) {
-    //   let red = (yellow = green = 0);
-
-    //   item?.topics?.forEach((topic) => {
-    //     if (topic.level === "red") red++;
-    //     if (topic.level === "yellow") yellow++;
-    //     if (topic.level === "green") green++;
-    //   });
-
-    // }
-  }, []);
+  }, [isFocused]);
 
   const createProgressData = (totalCount, totalCompletedCount) => {
     return {
@@ -145,7 +139,13 @@ const TopicDetailScreen = ({ route }) => {
 
       {item?.topics?.length > 0 &&
         item.topics.map((topic) => {
-          return <ExpandableList topic={topic} />;
+          return (
+            <ExpandableList
+              topic={topic}
+              topicsCompleted={userData?.topicsCompleted}
+              userId={userData?.userId}
+            />
+          );
         })}
     </ScrollView>
   );

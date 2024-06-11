@@ -1,9 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import { CheckBox } from "react-native-elements";
-import { STYLES } from "../utils/constants";
-const ExpandableList = ({ topic }) => {
+import { COLORS, STYLES } from "../utils/constants";
+import { useUpdateTopicStatusMutation } from "../services/user-services";
+
+const ExpandableList = ({ topic, topicsCompleted, userId }) => {
+  const [updateTopicStatus] = useUpdateTopicStatusMutation();
+
   const [expand, setExpand] = useState(false);
+  const [isCompleted, setIsCompleted] = useState(false);
+
+  useEffect(() => {
+    if (topicsCompleted && topicsCompleted?.includes(topic.id))
+      setIsCompleted(true);
+  }, []);
+
+  const updateTopicHandler = (topic, userId) => {
+    setIsCompleted((prev) => !prev);
+
+    updateTopicStatus({
+      userId,
+      topicId: topic.id,
+    })
+      .then(() => {
+        console.log("Status updated");
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <View
@@ -24,7 +49,14 @@ const ExpandableList = ({ topic }) => {
           <Text style={expandableListStyles.text}>{topic.name}</Text>
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <CheckBox containerStyle={{ padding: 0, margin: 0 }}></CheckBox>
+          <CheckBox
+            containerStyle={{ padding: 0, margin: 0, alignSelf: "center" }}
+            checked={isCompleted}
+            checkedColor={COLORS["btn-primary-1"]}
+            uncheckedColor={COLORS.red}
+            onIconPress={(value) =>
+              updateTopicHandler(topic, userId)
+            }></CheckBox>
 
           <Pressable
             style={expandableListStyles["down-arrow-container"]}
@@ -107,8 +139,8 @@ const expandableListStyles = StyleSheet.create({
     // right: 10,
   },
   "down-arrow": {
-    width: 25,
-    height: 25,
+    width: 20,
+    height: 20,
   },
 
   text: {

@@ -10,6 +10,9 @@ import Steps from "../components/Steps";
 import { STYLES } from "../utils/constants";
 import { useGetCoursesQuery } from "../services/course-services";
 import Loader from "../components/Loader";
+import useFetchCourses from "../hooks/useFetchCourses";
+import { useFocusEffect } from "@react-navigation/native";
+import useFetchUser from "../hooks/useFetchUser";
 
 const modifyList = (list, userData) => {
   return list.map((course) => {
@@ -41,15 +44,20 @@ const modifyList = (list, userData) => {
 const RoadmapScreen = ({ route, navigation }) => {
   const { data, isLoading, isError, error } = useGetCoursesQuery();
 
+  const [userData, setUserData] = useState(undefined);
+
+  const {
+    fetchUser,
+    isLoading: userIsLoading,
+    error: userError,
+  } = useFetchUser();
+
   const [progressData, setProgressData] = useState({
     totalTopics: undefined,
     totalTopicsCompleted: undefined,
   });
 
   const [coursesList, setCoursesList] = useState([]);
-
-  const { params } = route;
-  const { userData } = params;
 
   useEffect(() => {
     if (!isLoading && data?.length > 0 && userData != undefined) {
@@ -77,6 +85,20 @@ const RoadmapScreen = ({ route, navigation }) => {
       if (list?.length > 0) setCoursesList(list);
     }
   }, [data, userData]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const callFetchUser = async () => {
+        const data = await fetchUser("navrajkaler996@gmail.com");
+
+        if (data) {
+          setUserData(data);
+        }
+      };
+
+      callFetchUser();
+    }, [])
+  );
 
   const [fontsLoaded] = useFonts({
     "font-family-1": require("../assets/fonts/Jost-Black.ttf"),
@@ -112,7 +134,7 @@ const RoadmapScreen = ({ route, navigation }) => {
               <ProgressStepBar />
             </View>
           </View>
-          {isLoading ? (
+          {isLoading || userIsLoading ? (
             <Loader />
           ) : (
             <ScrollView style={roadmapStyles.conatiner}>
