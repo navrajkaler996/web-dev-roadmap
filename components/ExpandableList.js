@@ -4,7 +4,12 @@ import { CheckBox } from "react-native-elements";
 import { COLORS, STYLES } from "../utils/constants";
 import { useUpdateTopicStatusMutation } from "../services/user-services";
 
-const ExpandableList = ({ topic, topicsCompleted, userId }) => {
+const ExpandableList = ({
+  topic,
+  topicsCompleted,
+  userId,
+  updateProgressInUI,
+}) => {
   const [updateTopicStatus] = useUpdateTopicStatusMutation();
 
   const [expand, setExpand] = useState(false);
@@ -15,7 +20,8 @@ const ExpandableList = ({ topic, topicsCompleted, userId }) => {
       setIsCompleted(true);
   }, []);
 
-  const updateTopicHandler = (topic, userId) => {
+  const updateTopicHandler = (topic, userId, isCompleted) => {
+    updateProgressInUI(topic, !isCompleted);
     setIsCompleted((prev) => !prev);
 
     updateTopicStatus({
@@ -55,7 +61,7 @@ const ExpandableList = ({ topic, topicsCompleted, userId }) => {
             checkedColor={COLORS["btn-primary-1"]}
             uncheckedColor={COLORS.red}
             onIconPress={(value) =>
-              updateTopicHandler(topic, userId)
+              updateTopicHandler(topic, userId, isCompleted)
             }></CheckBox>
 
           <Pressable

@@ -13,11 +13,9 @@ const CircularProgress = ({
     <AnimatedCircularProgress
       size={110}
       width={10}
-      fill={
-        Math.floor(
-          (progressData.totalTopicsCompleted / progressData.totalTopics) * 100
-        ) ?? 0
-      }
+      fill={Math.floor(
+        (progressData.totalTopicsCompleted / progressData.totalTopics) * 100
+      )}
       tintColor={tintColor ? tintColor : COLORS.green}
       backgroundColor={backgroundColor ? backgroundColor : COLORS.red}>
       {() => (

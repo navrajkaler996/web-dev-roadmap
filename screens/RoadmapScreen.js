@@ -7,7 +7,7 @@ import { useFonts } from "expo-font";
 import ProgressStepBar from "../components/ProgressStepBar";
 import Steps from "../components/Steps";
 
-import { STYLES } from "../utils/constants";
+import { COLORS, STYLES } from "../utils/constants";
 import { useGetCoursesQuery } from "../services/course-services";
 import Loader from "../components/Loader";
 import useFetchCourses from "../hooks/useFetchCourses";
@@ -116,8 +116,8 @@ const RoadmapScreen = ({ route, navigation }) => {
   return (
     <>
       {isLoading &&
-      progressData.totalTopics &&
-      progressData.totalTopicsCompleted ? (
+      !progressData.totalTopics &&
+      !progressData.totalTopicsCompleted ? (
         <Loader />
       ) : (
         <>
@@ -130,11 +130,15 @@ const RoadmapScreen = ({ route, navigation }) => {
                 ...STYLES["shadow-2"],
                 borderRadius: 10,
               }}>
-              <CircularProgress progressData={progressData} />
+              <CircularProgress
+                progressData={progressData}
+                tintColor={COLORS.green}
+                backgroundColor={COLORS.red}
+              />
               <ProgressStepBar />
             </View>
           </View>
-          {isLoading || userIsLoading ? (
+          {isLoading ? (
             <Loader />
           ) : (
             <ScrollView style={roadmapStyles.conatiner}>

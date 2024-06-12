@@ -62,6 +62,30 @@ const TopicDetailScreen = ({ route }) => {
     };
   };
 
+  //This function updates the count on UI
+  const updateProgressInUI = (topic, isCompleted) => {
+    let redCompleted = topicsCount.redCompleted;
+
+    let yellowCompleted = topicsCount.yellowCompleted;
+    let greenCompleted = topicsCount.greenCompleted;
+
+    if (topic.level === "red") isCompleted ? redCompleted++ : redCompleted--;
+    if (topic.level === "yellow")
+      isCompleted ? yellowCompleted++ : yellowCompleted--;
+    if (topic.level === "green")
+      isCompleted ? greenCompleted++ : greenCompleted--;
+
+    setTopicsCount((prev) => {
+      return {
+        ...prev,
+
+        redCompleted,
+        yellowCompleted,
+        greenCompleted,
+      };
+    });
+  };
+
   return (
     <ScrollView
       id="topic-detail-screen"
@@ -144,6 +168,7 @@ const TopicDetailScreen = ({ route }) => {
               topic={topic}
               topicsCompleted={userData?.topicsCompleted}
               userId={userData?.userId}
+              updateProgressInUI={updateProgressInUI}
             />
           );
         })}
