@@ -15,7 +15,17 @@ export const userApi = createApi({
       },
       cacheTime: 0,
     }),
+    updateTopicStatus: builder.mutation({
+      query: (body) => {
+        return {
+          url: `users/update-topic`,
+          method: "POST",
+          body,
+        };
+      },
+      cacheTime: 0,
+    }),
   }),
 });
 
-export const { useGetUserByEmailQuery } = userApi;
+export const { useGetUserByEmailQuery, useUpdateTopicStatusMutation } = userApi;

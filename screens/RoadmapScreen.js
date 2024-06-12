@@ -7,9 +7,12 @@ import { useFonts } from "expo-font";
 import ProgressStepBar from "../components/ProgressStepBar";
 import Steps from "../components/Steps";
 
-import { STYLES } from "../utils/constants";
+import { COLORS, STYLES } from "../utils/constants";
 import { useGetCoursesQuery } from "../services/course-services";
 import Loader from "../components/Loader";
+import useFetchCourses from "../hooks/useFetchCourses";
+import { useFocusEffect } from "@react-navigation/native";
+import useFetchUser from "../hooks/useFetchUser";
 
 const modifyList = (list, userData) => {
   return list.map((course) => {
@@ -41,6 +44,14 @@ const modifyList = (list, userData) => {
 const RoadmapScreen = ({ route, navigation }) => {
   const { data, isLoading, isError, error } = useGetCoursesQuery();
 
+  const [userData, setUserData] = useState(undefined);
+
+  const {
+    fetchUser,
+    isLoading: userIsLoading,
+    error: userError,
+  } = useFetchUser();
+
   const [progressData, setProgressData] = useState({
     totalTopics: undefined,
     totalTopicsCompleted: undefined,
@@ -48,18 +59,15 @@ const RoadmapScreen = ({ route, navigation }) => {
 
   const [coursesList, setCoursesList] = useState([]);
 
-  const { params } = route;
-  const { userData } = params;
-
   useEffect(() => {
-    if (!isLoading && data?.length > 0) {
+    if (!isLoading && data?.length > 0 && userData != undefined) {
+      //Finding total number of topics
       const totalTopics = data.reduce((total, item) => {
         return total + item.topics?.length;
       }, 0);
 
-      const totalTopicsCompleted = data.reduce((total, item) => {
-        return total + item.topicsCompleted;
-      }, 0);
+      //Finding total number of topics completed by user
+      const totalTopicsCompleted = userData.topicsCompleted?.length;
 
       setProgressData((prev) => {
         return {
@@ -68,7 +76,7 @@ const RoadmapScreen = ({ route, navigation }) => {
         };
       });
     }
-  }, [isLoading, data]);
+  }, [isLoading, data, userData]);
 
   useEffect(() => {
     if (data && userData) {
@@ -77,6 +85,20 @@ const RoadmapScreen = ({ route, navigation }) => {
       if (list?.length > 0) setCoursesList(list);
     }
   }, [data, userData]);
+
+  useFocusEffect(
+    React.useCallback(() => {
+      const callFetchUser = async () => {
+        const data = await fetchUser("navrajkaler996@gmail.com");
+
+        if (data) {
+          setUserData(data);
+        }
+      };
+
+      callFetchUser();
+    }, [])
+  );
 
   const [fontsLoaded] = useFonts({
     "font-family-1": require("../assets/fonts/Jost-Black.ttf"),
@@ -88,14 +110,14 @@ const RoadmapScreen = ({ route, navigation }) => {
   });
 
   const onPress = (item) => {
-    navigation.navigate("TopicDetailScreen", { item });
+    navigation.navigate("TopicDetailScreen", { item, userData });
   };
 
   return (
     <>
       {isLoading &&
-      progressData.totalTopics &&
-      progressData.totalTopicsCompleted ? (
+      !progressData.totalTopics &&
+      !progressData.totalTopicsCompleted ? (
         <Loader />
       ) : (
         <>
@@ -108,7 +130,11 @@ const RoadmapScreen = ({ route, navigation }) => {
                 ...STYLES["shadow-2"],
                 borderRadius: 10,
               }}>
-              <CircularProgress progressData={progressData} />
+              <CircularProgress
+                progressData={progressData}
+                tintColor={COLORS.green}
+                backgroundColor={COLORS.red}
+              />
               <ProgressStepBar />
             </View>
           </View>
@@ -125,6 +151,7 @@ const RoadmapScreen = ({ route, navigation }) => {
                       index={i}
                       length={data.length}
                       onPress={onPress}
+                      topicsCompleted={userData.topicsCompleted}
                     />
                   );
                 })}

@@ -3,13 +3,88 @@ import { Text, View } from "react-native";
 import ExpandableList from "../components/ExpandableList";
 import CircularProgress from "../components/CircularProgress";
 import { COLORS, STYLES } from "../utils/constants";
+import { useEffect, useState } from "react";
+import { useIsFocused } from "@react-navigation/native";
 
 const TopicDetailScreen = ({ route }) => {
   const { params } = route;
 
-  const { item } = params;
+  const { item, userData } = params;
 
-  console.log(item);
+  const [topicsCount, setTopicsCount] = useState({
+    red: 0,
+    yellow: 0,
+    green: 0,
+    redCompleted: 0,
+    yellowCompleted: 0,
+    greenCompleted: 0,
+  });
+
+  const isFocused = useIsFocused();
+
+  useEffect(() => {
+    if (isFocused) {
+      if (item) {
+        let red = (yellow = green = 0);
+        let redCompleted = (yellowCompleted = greenCompleted = 0);
+
+        item?.topics?.forEach((topic) => {
+          if (topic.level === "red") red++;
+          if (topic.level === "yellow") yellow++;
+          if (topic.level === "green") green++;
+
+          if (userData?.topicsCompleted?.includes(topic.id)) {
+            if (topic.level === "red") redCompleted++;
+            if (topic.level === "yellow") yellowCompleted++;
+            if (topic.level === "green") greenCompleted++;
+          }
+        });
+
+        setTopicsCount((prev) => {
+          return {
+            ...prev,
+            red,
+            yellow,
+            green,
+            redCompleted,
+            yellowCompleted,
+            greenCompleted,
+          };
+        });
+      }
+    }
+  }, [isFocused]);
+
+  const createProgressData = (totalCount, totalCompletedCount) => {
+    return {
+      totalTopicsCompleted: totalCompletedCount,
+      totalTopics: totalCount,
+    };
+  };
+
+  //This function updates the count on UI
+  const updateProgressInUI = (topic, isCompleted) => {
+    let redCompleted = topicsCount.redCompleted;
+
+    let yellowCompleted = topicsCount.yellowCompleted;
+    let greenCompleted = topicsCount.greenCompleted;
+
+    if (topic.level === "red") isCompleted ? redCompleted++ : redCompleted--;
+    if (topic.level === "yellow")
+      isCompleted ? yellowCompleted++ : yellowCompleted--;
+    if (topic.level === "green")
+      isCompleted ? greenCompleted++ : greenCompleted--;
+
+    setTopicsCount((prev) => {
+      return {
+        ...prev,
+
+        redCompleted,
+        yellowCompleted,
+        greenCompleted,
+      };
+    });
+  };
 
   return (
     <ScrollView
@@ -24,18 +99,29 @@ const TopicDetailScreen = ({ route }) => {
         <Text style={topicsDetailStyles.heading}>{item?.title}</Text>
         <View style={topicsDetailStyles["progress-container"]}>
           <CircularProgress
-            size={80}
+            progressData={createProgressData(
+              topicsCount.red,
+              topicsCount.redCompleted
+            )}
             styles={{ fontSize: 10 }}
             tintColor={COLORS.red}
             backgroundColor="#ddd"
           />
           <CircularProgress
+            progressData={createProgressData(
+              topicsCount.yellow,
+              topicsCount.yellowCompleted
+            )}
             size={80}
             styles={{ fontSize: 10 }}
             tintColor="yellow"
             backgroundColor="#ddd"
           />
           <CircularProgress
+            progressData={createProgressData(
+              topicsCount.green,
+              topicsCount.greenCompleted
+            )}
             size={80}
             styles={{ fontSize: 10 }}
             tintColor={COLORS.green}
@@ -77,7 +163,14 @@ const TopicDetailScreen = ({ route }) => {
 
       {item?.topics?.length > 0 &&
         item.topics.map((topic) => {
-          return <ExpandableList topic={topic} />;
+          return (
+            <ExpandableList
+              topic={topic}
+              topicsCompleted={userData?.topicsCompleted}
+              userId={userData?.userId}
+              updateProgressInUI={updateProgressInUI}
+            />
+          );
         })}
     </ScrollView>
   );
