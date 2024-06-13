@@ -22,6 +22,8 @@
     "expo-google-fonts": "^0.0.0",
     "expo-linear-gradient": "~13.0.2",
     "expo-status-bar": "~1.12.1",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "react": "18.2.0",
     "react-native": "0.74.1",
     "react-native-circular-progress": "^1.4.0",

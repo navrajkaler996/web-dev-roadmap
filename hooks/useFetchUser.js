@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useGetUserByEmailQuery } from "../services/user-services";
+import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const useFetchUser = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -10,12 +10,20 @@ const useFetchUser = () => {
     setError(null);
     try {
       const API_URL = process.env.EXPO_PUBLIC_DEV_API_URL;
+      const token = await AsyncStorage.getItem("token");
 
       const response = await fetch(
-        `${API_URL}/users/get-user-by-email/${email}`
+        `${API_URL}/users/get-user-by-email/${email}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
       );
+
       const data = await response.json();
-      return data;
+
+      if (data) return data;
     } catch (error) {
       setError(error);
       return null;
