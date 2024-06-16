@@ -10,11 +10,24 @@ import { Image, PixelRatio, StyleSheet } from "react-native";
 import { View } from "react-native";
 import { COLORS, STYLES } from "../utils/constants";
 import Button from "../components/Button";
-import { useGetUserByEmailQuery } from "../services/user-services";
+import {
+  useGetUserByEmailQuery,
+  useLoginMutation,
+} from "../services/user-services";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { jwtDecode } from "jwt-decode";
+import { useFocusEffect } from "@react-navigation/native";
+import Loader from "../components/Loader";
+
 const BASE_HEADING_FONT_SIZE = 24;
 const adjustedFontSize = PixelRatio.getFontScale() * BASE_HEADING_FONT_SIZE;
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, route }) => {
+  const [login] = useLoginMutation();
+
+  const [loading, setLoading] = useState(false);
+  const [loadingForToken, setLoadingForToken] = useState(false);
+
   const {
     data: userData,
     isError,
@@ -30,9 +43,53 @@ const LoginScreen = ({ navigation }) => {
     password: "",
   });
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoadingForToken(true);
+      const checkToken = async () => {
+        try {
+          const storedToken = await AsyncStorage.getItem("token");
+
+          if (!storedToken) {
+            setLoadingForToken(false);
+          }
+
+          const decodedToken = jwtDecode(storedToken);
+
+          const currentTimestamp = Date.now() / 1000;
+
+          console.log(decodedToken.exp, currentTimestamp);
+          if (decodedToken.exp < currentTimestamp) {
+            setLoadingForToken(false);
+          } else {
+            navigation.navigate("RoadmapScreen");
+          }
+        } catch (error) {
+          console.error("Error checking token:", error);
+        }
+      };
+      checkToken();
+    }, [])
+  );
+
   const navigateHandler = () => {
-    if (userData && !isLoading && !isError) {
-      navigation.navigate("RoadmapScreen", { userData });
+    setLoading(true);
+    if (loginData.email?.length > 2 && loginData.password?.length > 2) {
+      login(loginData)
+        .then(async (response) => {
+          await AsyncStorage.setItem("token", response?.data?.token);
+
+          const token = await AsyncStorage.getItem("token");
+          setLoading(false);
+          if (token) {
+            navigation.navigate("RoadmapScreen", {
+              token,
+            });
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     }
   };
 
@@ -41,85 +98,93 @@ const LoginScreen = ({ navigation }) => {
       <LinearGradient
         colors={["#fff", "#fff"]}
         style={loginScreenStyles.container}>
-        <View style={{ alignItems: "center" }}>
-          <Text style={loginScreenStyles["text-1"]}>Login</Text>
-          <Text style={loginScreenStyles["text-2"]}>
-            Welcome, use your email and password to continue your journey
-          </Text>
-          <SafeAreaView>
-            <TextInput
-              style={{
-                ...loginScreenStyles.input,
+        {loading || loadingForToken ? (
+          <Loader />
+        ) : (
+          <>
+            <View style={{ alignItems: "center" }}>
+              <Text style={loginScreenStyles["text-1"]}>Login</Text>
+              <Text style={loginScreenStyles["text-2"]}>
+                Welcome, use your email and password to continue your journey
+              </Text>
+              <SafeAreaView>
+                <TextInput
+                  style={{
+                    ...loginScreenStyles.input,
+                    width: screenWidth - 40,
+                  }}
+                  value={loginData.email}
+                  onChangeText={(text) =>
+                    setLoginData((prev) => {
+                      return { ...prev, email: text };
+                    })
+                  }
+                  placeholder="Enter your email"
+                />
+                <TextInput
+                  style={{
+                    ...loginScreenStyles.input,
+                    width: screenWidth - 40,
+                  }}
+                  value={loginData.password}
+                  onChangeText={(text) =>
+                    setLoginData((prev) => {
+                      return { ...prev, password: text };
+                    })
+                  }
+                  secureTextEntry={true}
+                  placeholder="Enter your password"
+                />
+              </SafeAreaView>
+              <Button
+                title="Login"
+                styles={{
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  marginTop: 30,
+                  paddingLeft: 25,
+                  paddingRight: 25,
+                  paddingTop: 12,
+                  paddingBottom: 12,
+                  backgroundColor: COLORS["btn-primary-1"],
+                  borderRadius: 20,
+                  width: screenWidth - 40,
+                  justifyContent: "center",
+                }}
+                titleStyles={{
+                  fontSize: 14,
+                  letterSpacing: 1,
+                  fontFamily: "font-family-2",
+                }}
+                onPress={() => navigateHandler()}
+              />
+              <View style={{ marginTop: 10 }}>
+                <Text style={loginScreenStyles["text-2"]}>or</Text>
+              </View>
+            </View>
+            <Button
+              title="Sign up"
+              styles={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                marginTop: 10,
+                paddingLeft: 25,
+                paddingRight: 25,
+                paddingTop: 12,
+                paddingBottom: 12,
+                backgroundColor: COLORS["btn-primary-1"],
+                borderRadius: 20,
                 width: screenWidth - 40,
-                // ...STYLES["shadow-2"],
+                justifyContent: "center",
               }}
-              value={loginData.email}
-              onChangeText={(text) =>
-                setLoginData((prev) => {
-                  return { ...prev, email: text };
-                })
-              }
-              placeholder="Enter your email"
+              titleStyles={{
+                fontSize: 14,
+                letterSpacing: 1,
+                fontFamily: "font-family-2",
+              }}
             />
-            <TextInput
-              style={{ ...loginScreenStyles.input, width: screenWidth - 40 }}
-              value={loginData.password}
-              onChangeText={(text) =>
-                setLoginData((prev) => {
-                  return { ...prev, password: text };
-                })
-              }
-              secureTextEntry={true}
-              placeholder="Enter your password"
-            />
-          </SafeAreaView>
-          <Button
-            title="Login"
-            styles={{
-              marginLeft: "auto",
-              marginRight: "auto",
-              marginTop: 30,
-              paddingLeft: 25,
-              paddingRight: 25,
-              paddingTop: 12,
-              paddingBottom: 12,
-              backgroundColor: COLORS["btn-primary-1"],
-              borderRadius: 20,
-              width: screenWidth - 40,
-              justifyContent: "center",
-            }}
-            titleStyles={{
-              fontSize: 14,
-              letterSpacing: 1,
-              fontFamily: "font-family-2",
-            }}
-            onPress={() => navigateHandler()}
-          />
-          <View style={{ marginTop: 10 }}>
-            <Text style={loginScreenStyles["text-2"]}>or</Text>
-          </View>
-        </View>
-        <Button
-          title="Sign up"
-          styles={{
-            marginLeft: "auto",
-            marginRight: "auto",
-            marginTop: 10,
-            paddingLeft: 25,
-            paddingRight: 25,
-            paddingTop: 12,
-            paddingBottom: 12,
-            backgroundColor: COLORS["btn-primary-1"],
-            borderRadius: 20,
-            width: screenWidth - 40,
-            justifyContent: "center",
-          }}
-          titleStyles={{
-            fontSize: 14,
-            letterSpacing: 1,
-            fontFamily: "font-family-2",
-          }}
-        />
+          </>
+        )}
         <Image
           source={require("../assets/images/logo-demo.png")}
           style={{

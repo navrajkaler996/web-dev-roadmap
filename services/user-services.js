@@ -25,7 +25,20 @@ export const userApi = createApi({
       },
       cacheTime: 0,
     }),
+    login: builder.mutation({
+      query: (body) => {
+        return {
+          url: `users/login`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
-export const { useGetUserByEmailQuery, useUpdateTopicStatusMutation } = userApi;
+export const {
+  useGetUserByEmailQuery,
+  useUpdateTopicStatusMutation,
+  useLoginMutation,
+} = userApi;

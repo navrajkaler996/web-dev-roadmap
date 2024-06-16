@@ -10,7 +10,9 @@
   },
   "dependencies": {
     "@joaosousa/react-native-progress-steps": "^0.4.0",
+    "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-masked-view/masked-view": "0.3.1",
+    "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/stack": "^6.3.29",
     "@reduxjs/toolkit": "^2.2.5",
     "@rneui/base": "^4.0.0-rc.7",
@@ -21,6 +23,8 @@
     "expo-google-fonts": "^0.0.0",
     "expo-linear-gradient": "~13.0.2",
     "expo-status-bar": "~1.12.1",
+    "jsonwebtoken": "^9.0.2",
+    "jwt-decode": "^4.0.0",
     "react": "18.2.0",
     "react-native": "0.74.1",
     "react-native-circular-progress": "^1.4.0",

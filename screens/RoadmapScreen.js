@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
-import { ActivityIndicator, ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet } from "react-native";
 import { View } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
 
-import CircularProgress from "../components/CircularProgress";
 import { useFonts } from "expo-font";
+
+//Importing components
+import CircularProgress from "../components/CircularProgress";
 import ProgressStepBar from "../components/ProgressStepBar";
 import Steps from "../components/Steps";
+import Loader from "../components/Loader";
+
+import { useGetCoursesQuery } from "../services/course-services";
+
+import useFetchUser from "../hooks/useFetchUser";
 
 import { COLORS, STYLES } from "../utils/constants";
-import { useGetCoursesQuery } from "../services/course-services";
-import Loader from "../components/Loader";
-import useFetchCourses from "../hooks/useFetchCourses";
-import { useFocusEffect } from "@react-navigation/native";
-import useFetchUser from "../hooks/useFetchUser";
 
 const modifyList = (list, userData) => {
   return list.map((course) => {
@@ -91,7 +94,9 @@ const RoadmapScreen = ({ route, navigation }) => {
       const callFetchUser = async () => {
         const data = await fetchUser("navrajkaler996@gmail.com");
 
-        if (data) {
+        if (!data || data?.error) {
+          navigation.navigate("LoginScreen");
+        } else if (data) {
           setUserData(data);
         }
       };

@@ -1,15 +1,17 @@
-import { StyleSheet, Text, View } from "react-native";
-
-import EntryScreen from "./screens/EntryScreen";
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { Provider } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import RoadmapScreen from "./screens/RoadmapScreen";
-import TopicDetailScreen from "./screens/TopicDetailScreen";
-import { useGetCoursesQuery } from "./services/course-services";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { jwtDecode } from "jwt-decode";
 
-import { Provider } from "react-redux";
-import { store } from "./store";
+import EntryScreen from "./screens/EntryScreen";
 import LoginScreen from "./screens/LoginScreen";
+
+import BottomNavigationBar from "./components/BottomNavigationBar";
+
+import { store } from "./store";
 
 const Stack = createStackNavigator();
 
@@ -23,12 +25,15 @@ export default function App() {
               headerShown: false,
             }}>
             <Stack.Screen name="EntryScreen" component={EntryScreen} />
-            <Stack.Screen name="RoadmapScreen" component={RoadmapScreen} />
-            <Stack.Screen
-              name="TopicDetailScreen"
-              component={TopicDetailScreen}
-            />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
+
+            <Stack.Screen
+              screenOptions={{
+                headerShown: false,
+              }}
+              name="RoadmapScreen"
+              component={BottomNavigationBar}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </View>
