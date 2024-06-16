@@ -15,16 +15,18 @@ import {
   useLoginMutation,
 } from "../services/user-services";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { jwtDecode } from "jwt-decode";
+import { useFocusEffect } from "@react-navigation/native";
 import Loader from "../components/Loader";
 
 const BASE_HEADING_FONT_SIZE = 24;
 const adjustedFontSize = PixelRatio.getFontScale() * BASE_HEADING_FONT_SIZE;
 
-const LoginScreen = ({ navigation }) => {
+const LoginScreen = ({ navigation, route }) => {
   const [login] = useLoginMutation();
 
   const [loading, setLoading] = useState(false);
+  const [loadingForToken, setLoadingForToken] = useState(false);
 
   const {
     data: userData,
@@ -41,6 +43,35 @@ const LoginScreen = ({ navigation }) => {
     password: "",
   });
 
+  useFocusEffect(
+    React.useCallback(() => {
+      setLoadingForToken(true);
+      const checkToken = async () => {
+        try {
+          const storedToken = await AsyncStorage.getItem("token");
+
+          if (!storedToken) {
+            setLoadingForToken(false);
+          }
+
+          const decodedToken = jwtDecode(storedToken);
+
+          const currentTimestamp = Date.now() / 1000;
+
+          console.log(decodedToken.exp, currentTimestamp);
+          if (decodedToken.exp < currentTimestamp) {
+            setLoadingForToken(false);
+          } else {
+            navigation.navigate("RoadmapScreen");
+          }
+        } catch (error) {
+          console.error("Error checking token:", error);
+        }
+      };
+      checkToken();
+    }, [])
+  );
+
   const navigateHandler = () => {
     setLoading(true);
     if (loginData.email?.length > 2 && loginData.password?.length > 2) {
@@ -51,7 +82,9 @@ const LoginScreen = ({ navigation }) => {
           const token = await AsyncStorage.getItem("token");
           setLoading(false);
           if (token) {
-            navigation.navigate("RoadmapScreen");
+            navigation.navigate("RoadmapScreen", {
+              token,
+            });
           }
         })
         .catch((error) => {
@@ -65,7 +98,7 @@ const LoginScreen = ({ navigation }) => {
       <LinearGradient
         colors={["#fff", "#fff"]}
         style={loginScreenStyles.container}>
-        {loading ? (
+        {loading || loadingForToken ? (
           <Loader />
         ) : (
           <>
@@ -79,7 +112,6 @@ const LoginScreen = ({ navigation }) => {
                   style={{
                     ...loginScreenStyles.input,
                     width: screenWidth - 40,
-                    // ...STYLES["shadow-2"],
                   }}
                   value={loginData.email}
                   onChangeText={(text) =>

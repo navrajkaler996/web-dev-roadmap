@@ -12,6 +12,7 @@
     "@joaosousa/react-native-progress-steps": "^0.4.0",
     "@react-native-async-storage/async-storage": "^1.23.1",
     "@react-native-masked-view/masked-view": "0.3.1",
+    "@react-navigation/bottom-tabs": "^6.5.20",
     "@react-navigation/stack": "^6.3.29",
     "@reduxjs/toolkit": "^2.2.5",
     "@rneui/base": "^4.0.0-rc.7",
