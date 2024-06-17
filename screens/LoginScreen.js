@@ -1,23 +1,30 @@
-import { LinearGradient } from "expo-linear-gradient";
 import React, { useEffect, useState } from "react";
+
 import {
+  View,
   SafeAreaView,
   Text,
   TextInput,
   useWindowDimensions,
+  Image,
+  PixelRatio,
+  StyleSheet,
 } from "react-native";
-import { Image, PixelRatio, StyleSheet } from "react-native";
-import { View } from "react-native";
-import { COLORS, STYLES } from "../utils/constants";
+import { useFocusEffect } from "@react-navigation/native";
+
+import { LinearGradient } from "expo-linear-gradient";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { jwtDecode } from "jwt-decode";
+
 import Button from "../components/Button";
+import Loader from "../components/Loader";
+
 import {
   useGetUserByEmailQuery,
   useLoginMutation,
 } from "../services/user-services";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { jwtDecode } from "jwt-decode";
-import { useFocusEffect } from "@react-navigation/native";
-import Loader from "../components/Loader";
+
+import { COLORS } from "../utils/constants";
 
 const BASE_HEADING_FONT_SIZE = 24;
 const adjustedFontSize = PixelRatio.getFontScale() * BASE_HEADING_FONT_SIZE;

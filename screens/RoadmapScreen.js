@@ -62,6 +62,9 @@ const RoadmapScreen = ({ route, navigation }) => {
 
   const [coursesList, setCoursesList] = useState([]);
 
+  const { params } = route;
+  const { activeTabHandler } = params;
+
   useEffect(() => {
     if (!isLoading && data?.length > 0 && userData != undefined) {
       //Finding total number of topics
@@ -100,6 +103,8 @@ const RoadmapScreen = ({ route, navigation }) => {
           setUserData(data);
         }
       };
+
+      if (activeTabHandler) activeTabHandler("home");
 
       callFetchUser();
     }, [])
