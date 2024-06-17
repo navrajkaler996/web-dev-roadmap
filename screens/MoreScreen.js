@@ -1,10 +1,11 @@
 import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { Ionicons } from "@expo/vector-icons";
 
 import { COLORS } from "../utils/constants";
+import { logout } from "../utils/helper";
 
 const MoreScreen = ({ navigation, route }) => {
   useFocusEffect(
@@ -47,13 +48,15 @@ const MoreScreen = ({ navigation, route }) => {
           margin: 0,
           marginTop: 20,
         }}></View>
-      <View style={{ ...moreScreenStyles["list-item"], marginLeft: 20 }}>
+      <Pressable
+        style={{ ...moreScreenStyles["list-item"], marginLeft: 20 }}
+        onPress={() => logout(navigation)}>
         <Ionicons name="power" color={COLORS["btn-primary-1"]} size={30} />
 
         <Text style={{ ...moreScreenStyles["list-text"], fontWeight: "bold" }}>
           Log out
         </Text>
-      </View>
+      </Pressable>
     </View>
   );
 };
