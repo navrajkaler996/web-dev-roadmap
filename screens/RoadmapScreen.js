@@ -65,8 +65,6 @@ const RoadmapScreen = ({ route, navigation }) => {
   const { params } = route;
   const { activeTabHandler, setTopicDetailTitle } = params;
 
-  console.log("...", setTopicDetailTitle);
-
   useEffect(() => {
     if (!isLoading && data?.length > 0 && userData != undefined) {
       //Finding total number of topics
@@ -106,7 +104,9 @@ const RoadmapScreen = ({ route, navigation }) => {
         }
       };
 
-      if (activeTabHandler) activeTabHandler("home");
+      if (activeTabHandler) {
+        activeTabHandler("home");
+      }
 
       callFetchUser();
     }, [])

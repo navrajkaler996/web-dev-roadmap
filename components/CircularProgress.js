@@ -1,6 +1,7 @@
 import { View, Text, useWindowDimensions } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 import { COLORS } from "../utils/constants";
+import { useEffect } from "react";
 
 const CircularProgress = ({
   progressData,
@@ -16,6 +17,8 @@ const CircularProgress = ({
   );
 
   const progressSize = windowWidth * 0.25;
+
+  useEffect(() => {});
 
   return (
     <AnimatedCircularProgress
