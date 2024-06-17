@@ -16,6 +16,9 @@ const Stack = createStackNavigator();
 const RoadmapScreenStack = ({ navigation, route }) => {
   const { params } = route;
   const { activeTabHandler } = params;
+
+  const [topicDetailTitle, setTopicDetailTitle] = useState("");
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -25,12 +28,18 @@ const RoadmapScreenStack = ({ navigation, route }) => {
         }}
         name="RoadmapScreen"
         component={RoadmapScreen}
-        initialParams={{ activeTabHandler }}
+        initialParams={{ activeTabHandler, setTopicDetailTitle }}
       />
 
       <Stack.Screen
         options={{
-          headerShown: false,
+          headerShown: true,
+          headerTitle: topicDetailTitle,
+          headerBackTitle: "Home",
+          headerTitleStyle: {
+            fontFamily: "font-family-2",
+            letterSpacing: 0.2,
+          },
         }}
         name="TopicDetailScreen"
         component={TopicDetailScreen}

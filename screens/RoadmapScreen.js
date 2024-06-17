@@ -63,7 +63,9 @@ const RoadmapScreen = ({ route, navigation }) => {
   const [coursesList, setCoursesList] = useState([]);
 
   const { params } = route;
-  const { activeTabHandler } = params;
+  const { activeTabHandler, setTopicDetailTitle } = params;
+
+  console.log("...", setTopicDetailTitle);
 
   useEffect(() => {
     if (!isLoading && data?.length > 0 && userData != undefined) {
@@ -162,6 +164,7 @@ const RoadmapScreen = ({ route, navigation }) => {
                       length={data.length}
                       onPress={onPress}
                       topicsCompleted={userData.topicsCompleted}
+                      setTopicDetailTitle={setTopicDetailTitle}
                     />
                   );
                 })}

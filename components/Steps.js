@@ -3,7 +3,14 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import Button from "./Button";
 import { COLORS, STYLES } from "../utils/constants";
 
-const Steps = ({ item, index, length, onPress, topicsCompleted }) => {
+const Steps = ({
+  item,
+  index,
+  length,
+  onPress,
+  topicsCompleted,
+  setTopicDetailTitle,
+}) => {
   const [expand, setExpand] = useState(false);
 
   //Function to find the total number of topics completed by the user
@@ -92,6 +99,7 @@ const Steps = ({ item, index, length, onPress, topicsCompleted }) => {
                 <Button
                   title="start"
                   onPress={() => {
+                    setTopicDetailTitle(item.title);
                     onPress(item);
                   }}
                   styles={{

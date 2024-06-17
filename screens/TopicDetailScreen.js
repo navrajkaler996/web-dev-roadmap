@@ -96,7 +96,7 @@ const TopicDetailScreen = ({ route }) => {
           ...STYLES["shadow-2"],
           borderRadius: 10,
         }}>
-        <Text style={topicsDetailStyles.heading}>{item?.title}</Text>
+        {/* <Text style={topicsDetailStyles.heading}>{item?.title}</Text> */}
         <View style={topicsDetailStyles["progress-container"]}>
           <CircularProgress
             progressData={createProgressData(
@@ -183,7 +183,7 @@ const topicsDetailStyles = StyleSheet.create({
   },
   "heading-container": {
     backgroundColor: "#fff",
-    marginTop: 90,
+    marginTop: 30,
     marginBottom: 30,
 
     flexDirection: "column",
