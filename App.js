@@ -3,8 +3,6 @@ import { StyleSheet, View } from "react-native";
 import { Provider } from "react-redux";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { jwtDecode } from "jwt-decode";
 
 import EntryScreen from "./screens/EntryScreen";
 import LoginScreen from "./screens/LoginScreen";
@@ -12,6 +10,7 @@ import LoginScreen from "./screens/LoginScreen";
 import BottomNavigationBar from "./components/BottomNavigationBar";
 
 import { store } from "./store";
+import ErrorScreen from "./screens/ErrorScreen";
 
 const Stack = createStackNavigator();
 
@@ -26,7 +25,13 @@ export default function App() {
             }}>
             <Stack.Screen name="EntryScreen" component={EntryScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
-
+            <Stack.Screen
+              screenOptions={{
+                headerShown: false,
+              }}
+              name="ErrorScreen"
+              component={ErrorScreen}
+            />
             <Stack.Screen
               screenOptions={{
                 headerShown: false,
