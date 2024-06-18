@@ -5,7 +5,6 @@ import { useFocusEffect } from "@react-navigation/native";
 
 import { useFonts } from "expo-font";
 
-//Importing components
 import CircularProgress from "../components/CircularProgress";
 import ProgressStepBar from "../components/ProgressStepBar";
 import Steps from "../components/Steps";
@@ -65,8 +64,6 @@ const RoadmapScreen = ({ route, navigation }) => {
   const { params } = route;
   const { activeTabHandler, setTopicDetailTitle } = params;
 
-  console.log("...", setTopicDetailTitle);
-
   useEffect(() => {
     if (!isLoading && data?.length > 0 && userData != undefined) {
       //Finding total number of topics
@@ -100,13 +97,15 @@ const RoadmapScreen = ({ route, navigation }) => {
         const data = await fetchUser("navrajkaler996@gmail.com");
 
         if (!data || data?.error) {
-          navigation.navigate("LoginScreen");
+          navigation.navigate("ErrorScreen");
         } else if (data) {
           setUserData(data);
         }
       };
 
-      if (activeTabHandler) activeTabHandler("home");
+      if (activeTabHandler) {
+        activeTabHandler("home");
+      }
 
       callFetchUser();
     }, [])

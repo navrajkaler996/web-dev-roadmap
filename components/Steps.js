@@ -25,6 +25,9 @@ const Steps = ({
     return count;
   };
 
+  const checkCourseStatus = (count, totalCourses) =>
+    count > 0 ? (count === totalCourses ? "COMPLETED" : "CONTINUE") : "START";
+
   return (
     <>
       <View
@@ -40,7 +43,12 @@ const Steps = ({
             ...stepsStyles["steps-circle"],
             ...stepsStyles["shadow-1"],
             backgroundColor:
-              item.started && !item.completed ? COLORS.green : COLORS.red,
+              checkCourseStatus(
+                getTopicsCompletedForCourse(item.topics, topicsCompleted),
+                item.topics?.length
+              ) === "COMPLETED"
+                ? COLORS.green
+                : COLORS.red,
           }}>
           <Text
             style={{
@@ -97,7 +105,17 @@ const Steps = ({
               </View>
               <View style={stepsStyles["button-container"]}>
                 <Button
-                  title="start"
+                  title={
+                    topicsCompleted
+                      ? checkCourseStatus(
+                          getTopicsCompletedForCourse(
+                            item.topics,
+                            topicsCompleted
+                          ),
+                          item.topics?.length
+                        )
+                      : "START"
+                  }
                   onPress={() => {
                     setTopicDetailTitle(item.title);
                     onPress(item);
