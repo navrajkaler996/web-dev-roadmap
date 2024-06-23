@@ -11,6 +11,7 @@ import BottomNavigationBar from "./components/BottomNavigationBar";
 
 import { store } from "./store";
 import ErrorScreen from "./screens/ErrorScreen";
+import SignupScreen from "./screens/SignupScreen";
 
 const Stack = createStackNavigator();
 
@@ -25,6 +26,7 @@ export default function App() {
             }}>
             <Stack.Screen name="EntryScreen" component={EntryScreen} />
             <Stack.Screen name="LoginScreen" component={LoginScreen} />
+            <Stack.Screen name="SignupScreen" component={SignupScreen} />
             <Stack.Screen
               screenOptions={{
                 headerShown: false,

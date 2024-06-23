@@ -1,4 +1,5 @@
 import { Image, Pressable, StyleSheet, Text } from "react-native";
+import { COLORS } from "../utils/constants";
 
 const getImage = (image) => {
   if (image == "right-arrow")
@@ -12,11 +13,28 @@ const getImage = (image) => {
   return null;
 };
 
-const Button = ({ title, onPress, styles, titleStyles, image = false }) => {
+const Button = ({
+  title,
+  onPress,
+  styles,
+  titleStyles,
+  image = false,
+  disabled = false,
+}) => {
   return (
     <Pressable
-      style={{ ...buttonStyles.button, ...styles, ...buttonStyles["shadow-1"] }}
-      onPress={onPress}>
+      style={
+        !disabled
+          ? { ...buttonStyles.button, ...styles, ...buttonStyles["shadow-1"] }
+          : {
+              ...buttonStyles.button,
+              ...styles,
+              ...buttonStyles["shadow-1"],
+              backgroundColor: "gray",
+            }
+      }
+      onPress={onPress}
+      disabled={disabled}>
       <Text
         style={{
           ...buttonStyles.text,

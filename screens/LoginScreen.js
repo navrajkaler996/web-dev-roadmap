@@ -75,11 +75,22 @@ const LoginScreen = ({ navigation, route }) => {
           console.error("Error checking token:", error);
         }
       };
-      checkToken();
-    }, [])
+
+      const noToken = route?.params?.noToken;
+
+      if (!noToken) checkToken();
+      else {
+        setLoadingForToken(false);
+        setLoading(false);
+      }
+    }, [route])
   );
 
-  const navigateHandler = () => {
+  const navigateHandler = (value) => {
+    if (value === "signup") {
+      return navigation.navigate("SignupScreen");
+    }
+
     setLoading(true);
     if (loginData.email?.length > 2 && loginData.password?.length > 2) {
       login(loginData)
@@ -189,6 +200,7 @@ const LoginScreen = ({ navigation, route }) => {
                 letterSpacing: 1,
                 fontFamily: "font-family-2",
               }}
+              onPress={() => navigateHandler("signup")}
             />
           </>
         )}
