@@ -13,11 +13,14 @@ import Button from "../components/Button";
 import { useSignupMutation } from "../services/user-services";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Loader from "../components/Loader";
+import { useDispatch } from "react-redux";
+import { login } from "../slices/loggedInSlice";
 
 const BASE_HEADING_FONT_SIZE = 24;
 const adjustedFontSize = PixelRatio.getFontScale() * BASE_HEADING_FONT_SIZE;
 
 const SignupScreen = ({ navigation }) => {
+  const dispatch = useDispatch();
   const [signup] = useSignupMutation();
   const [loading, setLoading] = useState(false);
 
@@ -71,6 +74,7 @@ const SignupScreen = ({ navigation }) => {
 
         if (token) {
           setLoading(false);
+          dispatch(login(signupData?.email));
           return navigation.navigate("RoadmapScreen", {
             token,
           });
