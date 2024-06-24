@@ -15,6 +15,7 @@ import { useGetCoursesQuery } from "../services/course-services";
 import useFetchUser from "../hooks/useFetchUser";
 
 import { COLORS, STYLES } from "../utils/constants";
+import { useSelector } from "react-redux";
 
 const modifyList = (list, userData) => {
   return list.map((course) => {
@@ -44,6 +45,8 @@ const modifyList = (list, userData) => {
 };
 
 const RoadmapScreen = ({ route, navigation }) => {
+  const loggedIn = useSelector((state) => state.loggedIn);
+
   const { data, isLoading, isError, error } = useGetCoursesQuery();
 
   const [userData, setUserData] = useState(undefined);
@@ -93,8 +96,8 @@ const RoadmapScreen = ({ route, navigation }) => {
 
   useFocusEffect(
     React.useCallback(() => {
-      const callFetchUser = async () => {
-        const data = await fetchUser("navrajkaler996@gmail.com");
+      const callFetchUser = async (loggedIn) => {
+        const data = await fetchUser(loggedIn?.email);
 
         if (!data || data?.error) {
           navigation.navigate("ErrorScreen");
@@ -107,8 +110,8 @@ const RoadmapScreen = ({ route, navigation }) => {
         activeTabHandler("home");
       }
 
-      callFetchUser();
-    }, [])
+      callFetchUser(loggedIn);
+    }, [loggedIn])
   );
 
   const [fontsLoaded] = useFonts({

@@ -19,17 +19,22 @@ import { jwtDecode } from "jwt-decode";
 import Button from "../components/Button";
 import Loader from "../components/Loader";
 
+import { login as loginAction } from "../slices/loggedInSlice";
+
 import {
   useGetUserByEmailQuery,
   useLoginMutation,
 } from "../services/user-services";
 
 import { COLORS } from "../utils/constants";
+import { useDispatch } from "react-redux";
 
 const BASE_HEADING_FONT_SIZE = 24;
 const adjustedFontSize = PixelRatio.getFontScale() * BASE_HEADING_FONT_SIZE;
 
 const LoginScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
+
   const [login] = useLoginMutation();
 
   const [loading, setLoading] = useState(false);
@@ -69,17 +74,28 @@ const LoginScreen = ({ navigation, route }) => {
           if (decodedToken.exp < currentTimestamp) {
             setLoadingForToken(false);
           } else {
-            navigation.navigate("RoadmapScreen");
+            return navigation.navigate("RoadmapScreen");
           }
         } catch (error) {
           console.error("Error checking token:", error);
         }
       };
-      checkToken();
-    }, [])
+
+      const noToken = route?.params?.noToken;
+
+      if (!noToken) checkToken();
+      else {
+        setLoadingForToken(false);
+        setLoading(false);
+      }
+    }, [route])
   );
 
-  const navigateHandler = () => {
+  const navigateHandler = (value) => {
+    if (value === "signup") {
+      return navigation.navigate("SignupScreen");
+    }
+
     setLoading(true);
     if (loginData.email?.length > 2 && loginData.password?.length > 2) {
       login(loginData)
@@ -89,6 +105,7 @@ const LoginScreen = ({ navigation, route }) => {
           const token = await AsyncStorage.getItem("token");
           setLoading(false);
           if (token) {
+            dispatch(loginAction(loginData.email));
             navigation.navigate("RoadmapScreen", {
               token,
             });
@@ -189,6 +206,7 @@ const LoginScreen = ({ navigation, route }) => {
                 letterSpacing: 1,
                 fontFamily: "font-family-2",
               }}
+              onPress={() => navigateHandler("signup")}
             />
           </>
         )}

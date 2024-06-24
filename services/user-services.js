@@ -34,6 +34,15 @@ export const userApi = createApi({
         };
       },
     }),
+    signup: builder.mutation({
+      query: (body) => {
+        return {
+          url: `users/signup`,
+          method: "POST",
+          body,
+        };
+      },
+    }),
   }),
 });
 
@@ -41,4 +50,5 @@ export const {
   useGetUserByEmailQuery,
   useUpdateTopicStatusMutation,
   useLoginMutation,
+  useSignupMutation,
 } = userApi;

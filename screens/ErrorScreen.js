@@ -6,12 +6,20 @@ import {
   Image,
   useWindowDimensions,
 } from "react-native";
-import { COLORS } from "../utils/constants";
-import Button from "../components/Button";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const ErrorScreen = () => {
+import Button from "../components/Button";
+
+import { COLORS } from "../utils/constants";
+
+const ErrorScreen = ({ navigation }) => {
   const { width: screenWidth } = useWindowDimensions();
+
+  const navigateHandler = async () => {
+    await AsyncStorage.removeItem("token");
+    return navigation.navigate("LoginScreen");
+  };
 
   return (
     <View style={errorScreenStyles.container}>
@@ -50,7 +58,7 @@ const ErrorScreen = () => {
             letterSpacing: 1,
             fontFamily: "font-family-2",
           }}
-          // onPress={() => navigateHandler()}
+          onPress={() => navigateHandler()}
         />
       </View>
       <Image
