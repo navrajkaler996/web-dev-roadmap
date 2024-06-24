@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
+import { useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -8,14 +9,17 @@ import { COLORS } from "../utils/constants";
 import { logout } from "../utils/helper";
 
 const MoreScreen = ({ navigation, route }) => {
+  const loggedIn = useSelector((state) => state.loggedIn);
+
   useFocusEffect(
     React.useCallback(() => {
       route.params.activeTabHandler("more");
     }, [])
   );
+
   return (
     <View style={moreScreenStyles.container}>
-      <Text style={moreScreenStyles.title}>Navraj</Text>
+      <Text style={moreScreenStyles.title}>{loggedIn?.email}</Text>
       <View style={moreScreenStyles["horizontal-line"]}></View>
       <View style={moreScreenStyles["list-container"]}>
         <View style={moreScreenStyles["list-item"]}>
