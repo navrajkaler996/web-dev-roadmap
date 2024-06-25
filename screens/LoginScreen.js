@@ -9,6 +9,7 @@ import {
   Image,
   PixelRatio,
   StyleSheet,
+  KeyboardAvoidingView,
 } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
 
@@ -40,6 +41,8 @@ const LoginScreen = ({ navigation, route }) => {
   const [loading, setLoading] = useState(false);
   const [loadingForToken, setLoadingForToken] = useState(false);
 
+  const [error, setError] = useState(null);
+
   const {
     data: userData,
     isError,
@@ -58,19 +61,23 @@ const LoginScreen = ({ navigation, route }) => {
   useFocusEffect(
     React.useCallback(() => {
       setLoadingForToken(true);
+
+      //Function to check if token exists
+      //in the local storage or not
       const checkToken = async () => {
         try {
           const storedToken = await AsyncStorage.getItem("token");
 
           if (!storedToken) {
             setLoadingForToken(false);
+            return;
           }
 
           const decodedToken = jwtDecode(storedToken);
 
           const currentTimestamp = Date.now() / 1000;
 
-          console.log(decodedToken.exp, currentTimestamp);
+          //  console.log(decodedToken.exp, currentTimestamp);
           if (decodedToken.exp < currentTimestamp) {
             setLoadingForToken(false);
           } else {
@@ -80,7 +87,7 @@ const LoginScreen = ({ navigation, route }) => {
           console.error("Error checking token:", error);
         }
       };
-
+      setError(null);
       const noToken = route?.params?.noToken;
 
       if (!noToken) checkToken();
@@ -100,13 +107,20 @@ const LoginScreen = ({ navigation, route }) => {
     if (loginData.email?.length > 2 && loginData.password?.length > 2) {
       login(loginData)
         .then(async (response) => {
+          if (response?.error) {
+            setError(response?.error?.data?.message);
+            setLoading(false);
+
+            return;
+          }
+
           await AsyncStorage.setItem("token", response?.data?.token);
 
           const token = await AsyncStorage.getItem("token");
           setLoading(false);
           if (token) {
             dispatch(loginAction(loginData.email));
-            navigation.navigate("RoadmapScreen", {
+            return navigation.navigate("RoadmapScreen", {
               token,
             });
           }
@@ -119,8 +133,8 @@ const LoginScreen = ({ navigation, route }) => {
 
   return (
     <>
-      <LinearGradient
-        colors={["#fff", "#fff"]}
+      <KeyboardAvoidingView
+        // colors={["#fff", "#fff"]}
         style={loginScreenStyles.container}>
         {loading || loadingForToken ? (
           <Loader />
@@ -160,6 +174,11 @@ const LoginScreen = ({ navigation, route }) => {
                   placeholder="Enter your password"
                 />
               </SafeAreaView>
+              {error !== null && (
+                <View style={{ marginTop: 30 }}>
+                  <Text style={loginScreenStyles.error}>{error}</Text>
+                </View>
+              )}
               <Button
                 title="Login"
                 styles={{
@@ -182,32 +201,33 @@ const LoginScreen = ({ navigation, route }) => {
                 }}
                 onPress={() => navigateHandler()}
               />
+
               <View style={{ marginTop: 10 }}>
                 <Text style={loginScreenStyles["text-2"]}>or</Text>
               </View>
+              <Button
+                title="Sign up"
+                styles={{
+                  marginLeft: "auto",
+                  marginRight: "auto",
+                  marginTop: 10,
+                  paddingLeft: 25,
+                  paddingRight: 25,
+                  paddingTop: 12,
+                  paddingBottom: 12,
+                  backgroundColor: COLORS["btn-primary-1"],
+                  borderRadius: 20,
+                  width: screenWidth - 40,
+                  justifyContent: "center",
+                }}
+                titleStyles={{
+                  fontSize: 14,
+                  letterSpacing: 1,
+                  fontFamily: "font-family-2",
+                }}
+                onPress={() => navigateHandler("signup")}
+              />
             </View>
-            <Button
-              title="Sign up"
-              styles={{
-                marginLeft: "auto",
-                marginRight: "auto",
-                marginTop: 10,
-                paddingLeft: 25,
-                paddingRight: 25,
-                paddingTop: 12,
-                paddingBottom: 12,
-                backgroundColor: COLORS["btn-primary-1"],
-                borderRadius: 20,
-                width: screenWidth - 40,
-                justifyContent: "center",
-              }}
-              titleStyles={{
-                fontSize: 14,
-                letterSpacing: 1,
-                fontFamily: "font-family-2",
-              }}
-              onPress={() => navigateHandler("signup")}
-            />
           </>
         )}
         <Image
@@ -217,11 +237,11 @@ const LoginScreen = ({ navigation, route }) => {
             height: 300,
             marginLeft: "auto",
             marginRight: "auto",
-            position: "absolute",
-            bottom: 0,
+            // position: "absolute",
+            // bottom: 0,
           }}
         />
-      </LinearGradient>
+      </KeyboardAvoidingView>
     </>
   );
 };
@@ -229,13 +249,15 @@ const LoginScreen = ({ navigation, route }) => {
 const loginScreenStyles = StyleSheet.create({
   container: {
     flex: 1,
+
     paddingTop: 130,
     alignItems: "center",
+    justifyContent: "space-between",
   },
   "text-1": {
     color: "#000",
     fontSize: adjustedFontSize + 2,
-    letterSpacing: "1.5",
+    letterSpacing: 1.5,
     marginBottom: 10,
     fontFamily: "font-family-1",
     textTransform: "uppercase",
@@ -244,7 +266,7 @@ const loginScreenStyles = StyleSheet.create({
   "text-2": {
     color: "#000",
     fontSize: adjustedFontSize - 8,
-    letterSpacing: "1.5",
+    letterSpacing: 1.5,
     marginBottom: 10,
     fontFamily: "Lato-regular",
 
@@ -258,6 +280,14 @@ const loginScreenStyles = StyleSheet.create({
     borderRadius: 20,
     paddingLeft: 10,
     fontFamily: "font-family-4",
+  },
+
+  error: {
+    color: COLORS.red,
+    letterSpacing: 1,
+    fontSize: 16,
+    textTransform: "capitalize",
+    fontFamily: "font-family-2",
   },
 });
 

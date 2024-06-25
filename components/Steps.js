@@ -54,7 +54,7 @@ const Steps = ({
             style={{
               color: "#000",
               fontFamily: "font-family-1  ",
-              fontSize: "20",
+              fontSize: 20,
             }}>
             {item.id + 1}
           </Text>
@@ -181,7 +181,7 @@ const stepsStyles = StyleSheet.create({
 
   "steps-container": {
     flexDirection: "column",
-    borderRadius: "50%",
+    borderRadius: 5,
     height: "auto",
     flex: 1,
     marginLeft: 20,
@@ -193,7 +193,7 @@ const stepsStyles = StyleSheet.create({
   "steps-circle": {
     backgroundColor: "#fff",
 
-    borderRadius: "50%",
+    borderRadius: 25,
     width: 50,
     height: 50,
     alignItems: "center",

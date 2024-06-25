@@ -217,7 +217,7 @@ const topicsDetailStyles = StyleSheet.create({
   circle: {
     width: 10,
     height: 10,
-    borderRadius: "50%",
+    borderRadius: 5,
     backgroundColor: "green",
     marginRight: 10,
     marginLeft: 10,

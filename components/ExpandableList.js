@@ -38,6 +38,7 @@ const ExpandableList = ({
 
   return (
     <View
+      key={topic.id}
       style={{
         ...expandableListStyles.container,
         ...STYLES["shadow-2"],
@@ -134,7 +135,7 @@ const expandableListStyles = StyleSheet.create({
   circle: {
     width: 10,
     height: 10,
-    borderRadius: "50%",
+    borderRadius: 5,
     backgroundColor: "green",
     marginRight: 10,
     marginLeft: 10,
