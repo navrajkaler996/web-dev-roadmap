@@ -5,6 +5,7 @@ import { COLORS, STYLES } from "../utils/constants";
 import { useUpdateTopicStatusMutation } from "../services/user-services";
 
 const ExpandableList = ({
+  key,
   topic,
   topicsCompleted,
   userId,
@@ -38,7 +39,7 @@ const ExpandableList = ({
 
   return (
     <View
-      key={topic.id}
+      key={key}
       style={{
         ...expandableListStyles.container,
         ...STYLES["shadow-2"],

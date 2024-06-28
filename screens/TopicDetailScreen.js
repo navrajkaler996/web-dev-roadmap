@@ -165,6 +165,7 @@ const TopicDetailScreen = ({ route }) => {
         item.topics.map((topic) => {
           return (
             <ExpandableList
+              key={topic.id}
               topic={topic}
               topicsCompleted={userData?.topicsCompleted}
               userId={userData?.userId}
