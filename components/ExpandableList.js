@@ -5,6 +5,7 @@ import { COLORS, STYLES } from "../utils/constants";
 import { useUpdateTopicStatusMutation } from "../services/user-services";
 
 const ExpandableList = ({
+  key,
   topic,
   topicsCompleted,
   userId,
@@ -38,6 +39,7 @@ const ExpandableList = ({
 
   return (
     <View
+      key={key}
       style={{
         ...expandableListStyles.container,
         ...STYLES["shadow-2"],
@@ -134,7 +136,7 @@ const expandableListStyles = StyleSheet.create({
   circle: {
     width: 10,
     height: 10,
-    borderRadius: "50%",
+    borderRadius: 5,
     backgroundColor: "green",
     marginRight: 10,
     marginLeft: 10,

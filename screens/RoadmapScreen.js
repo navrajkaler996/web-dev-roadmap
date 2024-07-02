@@ -50,6 +50,7 @@ const RoadmapScreen = ({ route, navigation }) => {
   const { data, isLoading, isError, error } = useGetCoursesQuery();
 
   const [userData, setUserData] = useState(undefined);
+  const [topicsIsLoading, setTopicsIsLoading] = useState(false);
 
   const {
     fetchUser,
@@ -69,6 +70,7 @@ const RoadmapScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     if (!isLoading && data?.length > 0 && userData != undefined) {
+      setTopicsIsLoading(true);
       //Finding total number of topics
       const totalTopics = data.reduce((total, item) => {
         return total + item.topics?.length;
@@ -85,6 +87,10 @@ const RoadmapScreen = ({ route, navigation }) => {
       });
     }
   }, [isLoading, data, userData]);
+
+  useEffect(() => {
+    setTopicsIsLoading(false);
+  }, [progressData.totalTopicsCompleted]);
 
   useEffect(() => {
     if (data && userData) {
@@ -130,6 +136,7 @@ const RoadmapScreen = ({ route, navigation }) => {
   return (
     <>
       {isLoading &&
+      topicsIsLoading &&
       !progressData.totalTopics &&
       !progressData.totalTopicsCompleted ? (
         <Loader />
@@ -208,7 +215,7 @@ const roadmapStyles = StyleSheet.create({
   "steps-container": {
     flexDirection: "row",
     alignItems: "flex-end",
-    borderRadius: "50%",
+    borderRadius: 5,
     height: 50,
     flex: 1,
     marginLeft: 20,
@@ -216,7 +223,7 @@ const roadmapStyles = StyleSheet.create({
   "steps-circle": {
     backgroundColor: "#fff",
 
-    borderRadius: "50%",
+    borderRadius: 25,
     width: 50,
     height: 50,
   },

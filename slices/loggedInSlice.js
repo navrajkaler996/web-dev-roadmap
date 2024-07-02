@@ -13,8 +13,11 @@ const loggedInSlice = createSlice({
       state.isLoggedIn = true;
       state.email = action.payload;
     },
+    logout(state, action) {
+      (state.isLoggedIn = false), (state.email = null);
+    },
   },
 });
 
-export const { login } = loggedInSlice.actions;
+export const { login, logout } = loggedInSlice.actions;
 export default loggedInSlice.reducer;

@@ -1,6 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFocusEffect } from "@react-navigation/native";
 
 import { Ionicons } from "@expo/vector-icons";
@@ -9,6 +9,7 @@ import { COLORS } from "../utils/constants";
 import { logout } from "../utils/helper";
 
 const MoreScreen = ({ navigation, route }) => {
+  const dispatch = useDispatch();
   const loggedIn = useSelector((state) => state.loggedIn);
 
   useFocusEffect(
@@ -54,7 +55,7 @@ const MoreScreen = ({ navigation, route }) => {
         }}></View>
       <Pressable
         style={{ ...moreScreenStyles["list-item"], marginLeft: 20 }}
-        onPress={() => logout(navigation)}>
+        onPress={() => logout(navigation, dispatch)}>
         <Ionicons name="power" color={COLORS["btn-primary-1"]} size={30} />
 
         <Text style={{ ...moreScreenStyles["list-text"], fontWeight: "bold" }}>

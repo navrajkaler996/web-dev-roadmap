@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import {
   PixelRatio,
   StyleSheet,
@@ -14,6 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import Carousel from "../components/Carousel.js";
 import Button from "../components/Button.js";
 import { COLORS } from "../utils/constants.js";
+import Loader from "../components/Loader.js";
 
 const BASE_HEADING_FONT_SIZE = 24;
 const adjustedFontSize = PixelRatio.getFontScale() * BASE_HEADING_FONT_SIZE;
@@ -27,13 +28,22 @@ const EntryScreen = ({ navigation }) => {
     "Lato-regular": require("../assets/fonts/Lato-Black.ttf"),
   });
 
+  if (!fontsLoaded)
+    return (
+      <LinearGradient
+        colors={["#68d8d6", "#c4fff9"]}
+        style={entryScreenStyles.container}>
+        <Loader />
+      </LinearGradient>
+    );
+
   return (
     <>
       <LinearGradient
         colors={["#68d8d6", "#c4fff9"]}
         style={entryScreenStyles.container}>
         <View style={{ alignItems: "center", marginTop: 30 }}>
-          <Text style={entryScreenStyles["text-1"]}>Web dev roadmap</Text>
+          <Text style={entryScreenStyles["text-1"]}>Web dev roadmap </Text>
           <Text style={entryScreenStyles["text-2"]}>
             A guide to become a full stack web developer
           </Text>
@@ -64,7 +74,7 @@ const EntryScreen = ({ navigation }) => {
               <Carousel />
             </View>
             <Button
-              title="Start your journey"
+              title="Start your journey "
               styles={{
                 width: "auto",
                 marginLeft: "auto",
@@ -117,7 +127,7 @@ const entryScreenStyles = StyleSheet.create({
   "text-1": {
     color: "#000",
     fontSize: adjustedFontSize + 2,
-    letterSpacing: "1.5",
+    letterSpacing: 1.5,
     marginBottom: 10,
     fontFamily: "font-family-1",
     textTransform: "uppercase",
@@ -125,7 +135,7 @@ const entryScreenStyles = StyleSheet.create({
   "text-2": {
     color: "#000",
     fontSize: adjustedFontSize - 6,
-    letterSpacing: "1.5",
+    letterSpacing: 1.5,
     marginBottom: 10,
     fontFamily: "Lato-regular",
 
@@ -139,7 +149,7 @@ const entryScreenStyles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     fontSize: 26,
-    letterSpacing: "1",
+    letterSpacing: 1,
     fontFamily: "font-family-2",
     marginTop: 10,
     marginBottom: 10,

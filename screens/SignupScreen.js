@@ -236,7 +236,7 @@ const signupScreenStyles = StyleSheet.create({
   "text-1": {
     color: "#000",
     fontSize: adjustedFontSize + 2,
-    letterSpacing: "1.5",
+    letterSpacing: 1.5,
     marginBottom: 10,
     fontFamily: "font-family-1",
     textTransform: "uppercase",
@@ -245,7 +245,7 @@ const signupScreenStyles = StyleSheet.create({
   "text-2": {
     color: "#000",
     fontSize: adjustedFontSize - 8,
-    letterSpacing: "1.5",
+    letterSpacing: 1.5,
     marginBottom: 10,
     fontFamily: "Lato-regular",
 
