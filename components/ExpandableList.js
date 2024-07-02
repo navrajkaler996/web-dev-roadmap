@@ -1,8 +1,20 @@
 import React, { useEffect, useState } from "react";
-import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+import {
+  Image,
+  Linking,
+  Pressable,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { CheckBox } from "react-native-elements";
 import { COLORS, STYLES } from "../utils/constants";
 import { useUpdateTopicStatusMutation } from "../services/user-services";
+import { useGetTopicLinksQuery } from "../services/topic-services";
+import { Ionicons } from "@expo/vector-icons";
+import Loader from "./Loader";
+
+const links = [{ id: 1 }, { id: 1 }];
 
 const ExpandableList = ({
   key,
@@ -11,6 +23,12 @@ const ExpandableList = ({
   userId,
   updateProgressInUI,
 }) => {
+  const {
+    data: topicLinksData,
+    error: topicLinksError,
+    isLoading: topicLinksIsLoading,
+  } = useGetTopicLinksQuery(topic?.id);
+
   const [updateTopicStatus] = useUpdateTopicStatusMutation();
 
   const [expand, setExpand] = useState(false);
@@ -86,17 +104,26 @@ const ExpandableList = ({
         </View>
       </View>
       {expand && (
-        <View>
-          <View style={expandableListStyles["expand-view-container"]}>
-            <View
-              style={{
-                ...expandableListStyles.circle,
-                backgroundColor: "#000",
-                width: 8,
-                height: 8,
-              }}></View>
-            <Text>Learn HTML</Text>
-          </View>
+        <View style={{ marginLeft: 0, marginTop: 4 }}>
+          {topicLinksIsLoading && <Loader />}
+          {!topicLinksIsLoading &&
+            topicLinksData?.length > 0 &&
+            topicLinksData.map((link) => {
+              return (
+                <View style={expandableListStyles["expand-view-container"]}>
+                  <Ionicons
+                    name="link-outline"
+                    color={COLORS["btn-primary-1"]}
+                    size={16}
+                  />
+                  <Text
+                    style={expandableListStyles.link}
+                    onPress={() => Linking.openURL(link.link)}>
+                    {link.title}
+                  </Text>
+                </View>
+              );
+            })}
         </View>
       )}
     </View>
@@ -161,7 +188,17 @@ const expandableListStyles = StyleSheet.create({
   "expand-view-container": {
     flexDirection: "row",
     alignItems: "center",
-    marginLeft: 20,
+    marginLeft: 10,
+    marginTop: 5,
+    marginBottom: 5,
+  },
+  link: {
+    // marginTop: 10,
+    fontSize: 12,
+    letterSpacing: 0.3,
+    fontFamily: "Lato-Regular",
+    color: "#0070E0",
+    marginLeft: 5,
   },
 });
 
