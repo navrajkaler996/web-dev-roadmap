@@ -9,7 +9,7 @@ export const STYLES = {
     shadowColor: COLORS["btn-primary-1"],
     shadowOffset: {
       width: 0,
-      height: 1,
+      height: 2,
     },
     shadowOpacity: 5,
     shadowRadius: 1,

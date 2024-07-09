@@ -84,7 +84,7 @@ const ExpandableList = ({
               updateTopicHandler(topic, userId, isCompleted)
             }></CheckBox>
 
-          <Pressable
+          {/* <Pressable
             style={expandableListStyles["down-arrow-container"]}
             onPress={() => {
               setExpand((prev) => !prev);
@@ -100,10 +100,10 @@ const ExpandableList = ({
                 style={expandableListStyles["down-arrow"]}
               />
             )}
-          </Pressable>
+          </Pressable> */}
         </View>
       </View>
-      {expand && (
+      {/* {expand && (
         <View style={{ marginLeft: 0, marginTop: 4 }}>
           {topicLinksIsLoading && <Loader />}
           {!topicLinksIsLoading &&
@@ -125,7 +125,7 @@ const ExpandableList = ({
               );
             })}
         </View>
-      )}
+      )} */}
     </View>
   );
 };
@@ -134,13 +134,12 @@ const expandableListStyles = StyleSheet.create({
   container: {
     backgroundColor: "#fff",
     borderRadius: 0,
-
     paddingTop: 8,
     paddingBottom: 8,
     paddingLeft: 5,
     paddingRight: 5,
     width: "100",
-    marginBottom: 15,
+    marginBottom: 20,
   },
 
   "list-container": {
