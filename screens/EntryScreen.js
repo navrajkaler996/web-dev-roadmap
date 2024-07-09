@@ -26,6 +26,7 @@ const EntryScreen = ({ navigation }) => {
     "font-family-3": require("../assets/fonts/Jost-Italic.ttf"),
     "font-family-4": require("../assets/fonts/Jost-SemiBold.ttf"),
     "Lato-regular": require("../assets/fonts/Lato-Black.ttf"),
+    "Lato-Light": require("../assets/fonts/Lato-Light.ttf"),
   });
 
   if (!fontsLoaded)
