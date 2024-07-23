@@ -15,4 +15,14 @@ export const STYLES = {
     shadowRadius: 1,
     elevation: 1,
   },
+  "shadow-3": {
+    shadowColor: COLORS["btn-primary-1"],
+    shadowOffset: {
+      width: 1,
+      height: 1,
+    },
+    shadowOpacity: 5,
+    shadowRadius: 2,
+    elevation: 1,
+  },
 };

@@ -37,9 +37,14 @@ const CircularProgress = ({
       backgroundColor={backgroundColor ? backgroundColor : COLORS.red}
       delay={100}>
       {() => (
-        <Text style={{ fontFamily: "font-family-2" }}>
-          {progressData?.totalTopicsCompleted}/{progressData?.totalTopics}
-        </Text>
+        <>
+          <Text style={{ fontFamily: "font-family-2" }}>
+            {progressData?.totalTopicsCompleted}/{progressData?.totalTopics}
+          </Text>
+          <Text style={{ fontFamily: "font-family-2", fontSize: 12 }}>
+            topics
+          </Text>
+        </>
       )}
     </AnimatedCircularProgress>
   );

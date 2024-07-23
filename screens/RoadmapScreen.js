@@ -16,6 +16,7 @@ import useFetchUser from "../hooks/useFetchUser";
 
 import { COLORS, STYLES } from "../utils/constants";
 import { useSelector } from "react-redux";
+import { Text } from "react-native";
 
 const modifyList = (list, userData) => {
   return list.map((course) => {
@@ -50,7 +51,6 @@ const RoadmapScreen = ({ route, navigation }) => {
   const { data, isLoading, isError, error } = useGetCoursesQuery();
 
   const [userData, setUserData] = useState(undefined);
-  const [topicsIsLoading, setTopicsIsLoading] = useState(false);
 
   const {
     fetchUser,
@@ -70,7 +70,6 @@ const RoadmapScreen = ({ route, navigation }) => {
 
   useEffect(() => {
     if (!isLoading && data?.length > 0 && userData != undefined) {
-      setTopicsIsLoading(true);
       //Finding total number of topics
       const totalTopics = data.reduce((total, item) => {
         return total + item.topics?.length;
@@ -87,10 +86,6 @@ const RoadmapScreen = ({ route, navigation }) => {
       });
     }
   }, [isLoading, data, userData]);
-
-  useEffect(() => {
-    setTopicsIsLoading(false);
-  }, [progressData.totalTopicsCompleted]);
 
   useEffect(() => {
     if (data && userData) {
@@ -136,7 +131,6 @@ const RoadmapScreen = ({ route, navigation }) => {
   return (
     <>
       {isLoading &&
-      topicsIsLoading &&
       !progressData.totalTopics &&
       !progressData.totalTopicsCompleted ? (
         <Loader />
@@ -151,12 +145,45 @@ const RoadmapScreen = ({ route, navigation }) => {
                 ...STYLES["shadow-2"],
                 borderRadius: 10,
               }}>
-              <CircularProgress
-                progressData={progressData}
-                tintColor={COLORS.green}
-                backgroundColor={COLORS.red}
-              />
-              <ProgressStepBar />
+              <View
+                style={{
+                  flexDirection: "column",
+                  alignItems: "center",
+                  gap: 20,
+                }}>
+                <View
+                  style={{
+                    flexDirection: "row",
+                    alignItems: "center",
+                    gap: 20,
+                  }}>
+                  <View
+                    style={{
+                      ...roadmapStyles["circular-progress-text-container"],
+                    }}>
+                    <Text style={roadmapStyles["text-1"]}>5/19 </Text>
+                    <Text style={roadmapStyles["text-2"]}>courses</Text>
+                    <Text style={roadmapStyles["text-2"]}>completed </Text>
+                  </View>
+                  <View
+                    style={{
+                      ...roadmapStyles["circular-progress-text-container"],
+                    }}>
+                    <Text style={roadmapStyles["text-1"]}>11/43 </Text>
+                    <Text style={roadmapStyles["text-2"]}>modules</Text>
+                    <Text style={roadmapStyles["text-2"]}>completed </Text>
+                  </View>
+                  <View
+                    style={{
+                      ...roadmapStyles["circular-progress-text-container"],
+                    }}>
+                    <Text style={roadmapStyles["text-1"]}>11/43 </Text>
+                    <Text style={roadmapStyles["text-2"]}>modules</Text>
+                    <Text style={roadmapStyles["text-2"]}>completed </Text>
+                  </View>
+                </View>
+                <ProgressStepBar />
+              </View>
             </View>
           </View>
           {isLoading ? (
@@ -198,12 +225,14 @@ const roadmapStyles = StyleSheet.create({
     marginBottom: 20,
     marginLeft: 10,
     marginRight: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     paddingTop: 20,
-    paddingBottom: 20,
+    paddingBottom: 40,
     paddingLeft: 10,
     paddingRight: 10,
+    gap: 30,
   },
 
   "resusable-conatiner": {
@@ -215,7 +244,7 @@ const roadmapStyles = StyleSheet.create({
   "steps-container": {
     flexDirection: "row",
     alignItems: "flex-end",
-    borderRadius: 5,
+    borderRadius: "50%",
     height: 50,
     flex: 1,
     marginLeft: 20,
@@ -223,7 +252,7 @@ const roadmapStyles = StyleSheet.create({
   "steps-circle": {
     backgroundColor: "#fff",
 
-    borderRadius: 25,
+    borderRadius: "50%",
     width: 50,
     height: 50,
   },
@@ -245,6 +274,51 @@ const roadmapStyles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 9,
+    elevation: 3,
+  },
+
+  "circular-progress-text-container": {
+    // backgroundColor: COLORS["btn-primary-1"],
+    // justifyContent: "space-around",
+    alignItems: "center",
+    paddingTop: 5,
+    paddingBottom: 5,
+    // paddingRight: 10,
+    // paddingLeft: 10,
+    width: 90,
+  },
+
+  "circular-progress-text": {
+    fontSize: 12,
+
+    textAlign: "center",
+
+    fontFamily: "font-family-2",
+    letterSpacing: 0.5,
+  },
+  "text-1": {
+    fontSize: 20,
+
+    textAlign: "center",
+
+    fontFamily: "font-family-1",
+  },
+  "text-2": {
+    fontSize: 12,
+
+    textAlign: "center",
+
+    fontFamily: "font-family-2",
+    letterSpacing: 0.2,
+  },
+  "shadow-1": {
+    shadowColor: "#000000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 2,
     elevation: 3,
   },
 });
