@@ -7,7 +7,7 @@ import { useFonts } from "expo-font";
 
 import CircularProgress from "../components/CircularProgress";
 import ProgressStepBar from "../components/ProgressStepBar";
-import Steps from "../components/Steps";
+import Steps, { getTopicsCompletedForCourse } from "../components/Steps";
 import Loader from "../components/Loader";
 
 import { useGetCoursesQuery } from "../services/course-services";
@@ -61,9 +61,13 @@ const RoadmapScreen = ({ route, navigation }) => {
   const [progressData, setProgressData] = useState({
     totalTopics: undefined,
     totalTopicsCompleted: undefined,
+    totalCourses: undefined,
+    totalCoursesCompleted: undefined,
   });
 
   const [coursesList, setCoursesList] = useState([]);
+
+  const [coursesCompleted, setCoursesCompleted] = useState(0);
 
   const { params } = route;
   const { activeTabHandler, setTopicDetailTitle } = params;
@@ -90,7 +94,22 @@ const RoadmapScreen = ({ route, navigation }) => {
   useEffect(() => {
     if (data && userData) {
       const list = modifyList(data, userData);
+      // let c = 0;
+      // const courses = list?.forEach((item) => {
+      //   c = c + getTopicsCompletedForCourse(item, userData.topicsCompleted);
+      // });
 
+      // console.log("----", c);
+      let coursesCompleted = 0;
+      list.forEach((item) => {
+        let count = 0;
+
+        item?.topics?.forEach((topic) => {
+          if (userData.topicsCompleted?.includes(topic.id)) count++;
+        });
+        if (count === item.topics.length) coursesCompleted++;
+      });
+      setCoursesCompleted(coursesCompleted);
       if (list?.length > 0) setCoursesList(list);
     }
   }, [data, userData]);
@@ -161,7 +180,9 @@ const RoadmapScreen = ({ route, navigation }) => {
                     style={{
                       ...roadmapStyles["circular-progress-text-container"],
                     }}>
-                    <Text style={roadmapStyles["text-1"]}>5/19 </Text>
+                    <Text style={roadmapStyles["text-1"]}>
+                      {coursesCompleted}/{coursesList?.length}{" "}
+                    </Text>
                     <Text style={roadmapStyles["text-2"]}>courses</Text>
                     <Text style={roadmapStyles["text-2"]}>completed </Text>
                   </View>
@@ -169,15 +190,18 @@ const RoadmapScreen = ({ route, navigation }) => {
                     style={{
                       ...roadmapStyles["circular-progress-text-container"],
                     }}>
-                    <Text style={roadmapStyles["text-1"]}>11/43 </Text>
-                    <Text style={roadmapStyles["text-2"]}>modules</Text>
+                    <Text style={roadmapStyles["text-1"]}>
+                      {progressData.totalTopicsCompleted}/
+                      {progressData.totalTopics}{" "}
+                    </Text>
+                    <Text style={roadmapStyles["text-2"]}>topics</Text>
                     <Text style={roadmapStyles["text-2"]}>completed </Text>
                   </View>
                   <View
                     style={{
                       ...roadmapStyles["circular-progress-text-container"],
                     }}>
-                    <Text style={roadmapStyles["text-1"]}>11/43 </Text>
+                    <Text style={roadmapStyles["text-1"]}>0/0 </Text>
                     <Text style={roadmapStyles["text-2"]}>modules</Text>
                     <Text style={roadmapStyles["text-2"]}>completed </Text>
                   </View>
